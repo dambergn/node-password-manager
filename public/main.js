@@ -37,7 +37,7 @@ function generateKey(pass) {
   encrypt(keyed);
 };
 
-function encrypt(toBeEnc) {
+function encrypt(toBeEnc, key) {
   // Convert text to bytes
   // var text = 'system:system, username:username, password:password';
   var textBytes = aesjs.utils.utf8.toBytes(toBeEnc);
@@ -54,7 +54,7 @@ function encrypt(toBeEnc) {
   //  ea145b73e82aefcf2076f881c88879e4e25b1d7b24ba2788"
 }
 
-function decrypt(toBeDec) {
+function decrypt(toBeDec, key) {
   // When ready to decrypt the hex string, convert it back to bytes
   var encryptedBytes = aesjs.utils.hex.toBytes(toBeDec);
 
