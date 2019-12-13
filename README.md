@@ -14,3 +14,4 @@ This is a node based password manager with client side encryption and de-cryptio
 
 ## Features
 - [] test
+- [] test2
