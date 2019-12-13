@@ -4,7 +4,8 @@
 // 128-bit = 16
 // 192-bit = 24
 // 256-bit = 32
-let key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+// let key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+let key = [];
 let passwordENC = '';
 
 // Convert password to a usable key
@@ -34,10 +35,9 @@ function generateKey(pass) {
   }
   console.log('keyed array:', keyed);
   key = keyed;
-  encrypt(keyed);
 };
 
-function encrypt(toBeEnc, key) {
+function encrypt(key, toBeEnc) {
   // Convert text to bytes
   // var text = 'system:system, username:username, password:password';
   var textBytes = aesjs.utils.utf8.toBytes(toBeEnc);
@@ -48,13 +48,14 @@ function encrypt(toBeEnc, key) {
 
   // To print or store the binary data, you may convert it to hex
   var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-  console.log('Encrypted HEX:', encryptedHex);
+  // console.log('Encrypted HEX:', encryptedHex);
   passwordENC = encryptedHex;
+  return encryptedHex;
   // "a338eda3874ed884b6199150d36f49988c90f5c47fe7792b0cf8c7f77eeffd87
   //  ea145b73e82aefcf2076f881c88879e4e25b1d7b24ba2788"
-}
+};
 
-function decrypt(toBeDec, key) {
+function decrypt(key, toBeDec) {
   // When ready to decrypt the hex string, convert it back to bytes
   var encryptedBytes = aesjs.utils.hex.toBytes(toBeDec);
 
@@ -68,9 +69,11 @@ function decrypt(toBeDec, key) {
   // console.log('Decrypted:', decryptedText);
   return decryptedText;
   // "Text may be any length you wish, no padding is required."
-}
+};
 
 
 generateKey('Password!1');
 
-console.log('decrypted:', decrypt(passwordENC));
+console.log('encrypted:', encrypt(key, 'marco to your polo'))
+
+console.log('decrypted:', decrypt(key, passwordENC));
