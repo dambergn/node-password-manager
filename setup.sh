@@ -5,20 +5,36 @@ echo "Setting npm user home directory"
 sudo chown -R $USER:$(id -gn $USER) $HOME/
 
 # Create and setup .env file
-echo "Before continuing make sure you have these items handy."
-echo "TV Database API key."
-
 if [ -f ".env" ]; then
-  echo ".env file already exists"
+  echo "<<<.env file already exists"
 else 
-  echo "Creating .env file"
+  echo "<<<Creating .env file"
   touch .env
   echo "PORT=3000" >> .env
+  echo "PORTS=8080" >> .env
 fi
 
+if [ -f "ssl/ssl-crt.crt" ]; then
+  echo "<<<SSL certs already exist"
+else
+  echo "<<<No SSL Certs exist, generating Cert"
+  mkdir ssl
+  sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/ssl-key.key -out ssl/ssl-crt.crt
+  echo "<<<SSL cert created"
+fi
+
+if [ -f ".gitignore" ]; then
+  echo "<<< .gitignore already exists"
+else
+  echo "<<< Generating .gitignore file"
+  touch .gitignore
+  echo "PORT=3000" >> .gitignore
+  echo "node_modules" >> .gitignore
+  echo "ssl" >> .gitignore
+fi
 
 # Check if node is installed
-echo "Checking software dependencies"
+echo "<<<Checking software dependencies"
 if ! [ -x "$(command -v node)" ]; then
   echo 'Error: node is not installed.' >&2
   
@@ -41,5 +57,5 @@ if ! [ -x "$(command -v node)" ]; then
 fi
 
 # Installing node_modules
-echo "Installing NPM packages"
+echo "<<<Installing NPM packages"
 npm install

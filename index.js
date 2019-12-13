@@ -12,6 +12,8 @@ try {
   }
 } catch (err) { console.error(err) }
 require('dotenv').config();
+const http = require('http');
+const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -19,14 +21,30 @@ const readline = require('readline');
 const cmd = require('node-cmd');
 
 const PORT = process.env.PORT || 3000;
+const PORTS = process.env.PORTS || 8080;
+const options = {
+  key: fs.readFileSync('./ssl/ssl-key.key'),
+  cert: fs.readFileSync('./ssl/ssl-crt.crt'),
+};
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.enable('trust proxy');
 
 //Web Front End
+app.use(function (req, res, next) {
+  if (req.secure) {
+    // request was via https, so do no special handling
+    next();
+  } else {
+    // request was via http, so redirect to https
+    res.redirect('https://' + req.headers.host.split(':')[0] + ':' + PORTS + req.url);
+  }
+});
 app.use(express.static('./public'));
+
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
@@ -40,9 +58,14 @@ function serverIncriment() {
 }
 
 app.listen(PORT, () => {
-  console.log('Listening on port:', PORT, 'use CTRL+C to close.')
+  console.log('HTTP Listening on port:', PORT, 'use CTRL+C to close.')
+  // console.log('Server started:', new Date());
+  // console.log('Currently running on Version', serverIncriment())
+});
+
+const server = https.createServer(options, app).listen(PORTS, function () {
+  console.log('HTTPS Listening on port:', PORTS, 'use CTRL+C to close.')
   console.log('Server started:', new Date());
-  // console.log('Currently running on', serverVersion);
   console.log('Currently running on Version', serverIncriment())
 });
 
