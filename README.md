@@ -10,3 +10,6 @@ This is a node based password manager with client side encryption and de-cryptio
 - readline
 - node-cmd
 - aes-js
+  - https://www.npmjs.com/package/aes-js
+
+## Features
