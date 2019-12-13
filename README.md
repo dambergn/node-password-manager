@@ -13,3 +13,4 @@ This is a node based password manager with client side encryption and de-cryptio
   - https://www.npmjs.com/package/aes-js
 
 ## Features
+- [] test
