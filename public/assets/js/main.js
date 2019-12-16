@@ -72,8 +72,6 @@ function decrypt(key, toBeDec) {
 };
 
 
-generateKey('Password!1');
-
-console.log('encrypted:', encrypt(key, 'marco to your polo'))
-
-console.log('decrypted:', decrypt(key, passwordENC));
+// generateKey('Password!1');
+// console.log('encrypted:', encrypt(key, 'marco to your polo'))
+// console.log('decrypted:', decrypt(key, passwordENC));
