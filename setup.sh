@@ -20,6 +20,7 @@ else
   echo "<<<No SSL Certs exist, generating Cert"
   mkdir ssl
   sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/ssl-key.key -out ssl/ssl-crt.crt
+  sudo chown -R $USER:$(id -gn $USER) ./ssl
   echo "<<<SSL cert created"
 fi
 
