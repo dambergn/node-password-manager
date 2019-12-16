@@ -33,7 +33,7 @@ function generateKey(pass) {
       console.log('There was an error keying the hash');
     }
   }
-  console.log('keyed array:', keyed);
+  // console.log('keyed array:', keyed);
   key = keyed;
 };
 

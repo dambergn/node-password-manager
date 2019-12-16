@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Manual</title>
+</head>
+
+<body>
+  <h1>Manual encryption and decryption tool</h1>
+
+  <form id="encrypt-decrypt">
+      <p>Master: </p><input type="password" id="master-password">
+      <p>Confirm: </p><input type="password" id="master-confirm">
+      <p>toProcess: </p><input type="text" id="to-be-processed">
+      <button id="encrypt" onclick="encryptPassword()">Encrypt</button>
+      <button id="decrypt" onclick="decryptPassword()">Decrypt</button>
+      <p>Results</p><input type="text" id="results">
+  </form>
+
+  <script src="assets/js/password-generator.js"></script>
+  <script src="assets/js/md5-js.js"></script>
+  <script src="assets/js/aes-js.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+  function confirmMaster () {
+    let pass1 = document.getElementById('master-password').value;
+    let pass2 = document.getElementById('master-confirm').value;
+    // console.log('pass1:', pass1, 'pass2:', pass2);
+    if(pass1 === pass2){
+      // console.log('Passwords match')
+      return true
+    } else {
+      // console.log('passwords do not match')
+      return false
+    }
+  }
+
+  function encryptPassword(){
+    event.preventDefault()
+    console.log('encrypting password')
+    let check = confirmMaster()
+    if(check === true){
+      let masterPass = document.getElementById('master-password').value;
+      let toBeProcessed = document.getElementById('to-be-processed').value;
+      generateKey(masterPass);
+      let encrypted = encrypt(key, toBeProcessed);
+      console.log('processed: ', encrypted);
+      document.getElementById('results').value = encrypted;
+    }
+  }
+
+  function decryptPassword(){
+    event.preventDefault()
+    console.log('decrypting password')
+    let check = confirmMaster()
+    if(check === true){
+      let masterPass = document.getElementById('master-password').value;
+      let toBeProcessed = document.getElementById('to-be-processed').value;
+      generateKey(masterPass);
+      let decrypted = decrypt(key, toBeProcessed);
+      console.log('processed: ', decrypted);
+      document.getElementById('results').value = decrypted;
+    }
+  }
+  </script>
+</body>
+
+</html>

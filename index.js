@@ -23,15 +23,22 @@ const cmd = require('node-cmd');
 const PORT = process.env.PORT || 3000;
 const PORTS = process.env.PORTS || 8080;
 const options = {
-  key: fs.readFileSync('./ssl/ssl-key.key'),
-  cert: fs.readFileSync('./ssl/ssl-crt.crt'),
+  key: fs.readFileSync(process.env.KEY),
+  cert: fs.readFileSync(process.env.CERT),
 };
+
+// Clears any lingering usage of these ports
+// cmd.run('fuser -k 3000/tcp');
+// cmd.run('fuser -k 8080/tcp');
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.enable('trust proxy');
+
+
 
 //Web Front End
 app.use(function (req, res, next) {
@@ -76,24 +83,10 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (input) => {
-  if (input.split(' ')[0] === 'clear') {
-    clearFolder();
-  } else if (input.split(' ')[0] === 'getepisodesbyid') {
-    getEpisodesByID(input.substr(input.indexOf(' ') + 1));
-  } else if (input.split(' ')[0] === 'getbanner') {
-    getSeriesBannerByID(input.substr(input.indexOf(' ') + 1));
-  } else if (input.split(' ')[0] === 'getfanart') {
-    getSeriesFanArtByID(input.substr(input.indexOf(' ') + 1));
-  } else if (input.split(' ')[0] === 'getposter') {
-    getSeriesPostersByID(input.substr(input.indexOf(' ') + 1));
-  } else if (input.split(' ')[0] === 'test') {
-    myAL.searchAnime(input.substr(input.indexOf(' ') + 1));
-  } else if (input.split(' ')[0] === 'test2') {
-    myAL.animeByID(input.substr(input.indexOf(' ') + 1));
-  } else if (input === 'scan') {
-    scan.scanFolder();
-  } else if (input === 'update') {
-    server.update();
+  if (input.split(' ')[0] === 'com1') {
+    console.log('first command');
+  } else if (input.split(' ')[0] === 'com2') {
+    console.log('second command');
   } else {
     console.log(input, 'is not a valid input')
   };
