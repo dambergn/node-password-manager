@@ -1,10 +1,5 @@
 'use strict';
 
-// An example 128-bit key (16 bytes * 8 bits/byte = 128 bits)
-// 128-bit = 16
-// 192-bit = 24
-// 256-bit = 32
-// let key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 let key = [];
 let passwordENC = '';
 
@@ -70,8 +65,3 @@ function decrypt(key, toBeDec) {
   return decryptedText;
   // "Text may be any length you wish, no padding is required."
 };
-
-
-// generateKey('Password!1');
-// console.log('encrypted:', encrypt(key, 'marco to your polo'))
-// console.log('decrypted:', decrypt(key, passwordENC));
