@@ -1,9 +1,20 @@
 'use strict';
 
+// 128-bit, 192-bit and 256-bit keys
+// var key_128 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+// var key_192 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+//               16, 17, 18, 19, 20, 21, 22, 23];
+// var key_256 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+//               16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+//               29, 30, 31];
+// numbers can be between 0 - 255
+
 let key = [];
 let passwordENC = '';
 
 // Convert password to a usable key
+// Function needs to be refactored to create a key that generates numbers
+// between 0-255 instead of only 0-15
 function generateKey(pass) {
   console.log('Password PLT:', pass);
   let hashed = calcMD5(pass);
