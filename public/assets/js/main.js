@@ -13,31 +13,42 @@ let key = [];
 let passwordENC = '';
 
 // Convert password to a usable key
-// Function needs to be refactored to create a key that generates numbers
-// between 0-255 instead of only 0-15
 function generateKey(pass) {
-  console.log('Password PLT:', pass);
-  let hashed = calcMD5(pass);
-  console.log('Password Hashed:', hashed)
+  // console.log('Password PLT:', pass);
+  // let hashed = calcMD5(pass);
+  let hashed = hex_sha256(pass);
+  // console.log('Password Hashed:', hashed);
   let keyed = [];
+  let numberfied = [];
   for (let i = 0; i < hashed.length; i++) {
     if (!isNaN(hashed[i])) {
-      keyed.push(parseInt(hashed[i]))
+      numberfied.push(parseInt(hashed[i])+1)
     } else if (hashed[i] === 'a') {
-      keyed.push(10)
+      numberfied.push(11)
     } else if (hashed[i] === 'b') {
-      keyed.push(11)
+      numberfied.push(12)
     } else if (hashed[i] === 'c') {
-      keyed.push(12)
+      numberfied.push(13)
     } else if (hashed[i] === 'd') {
-      keyed.push(13)
+      numberfied.push(14)
     } else if (hashed[i] === 'e') {
-      keyed.push(14)
+      numberfied.push(15)
     } else if (hashed[i] === 'f') {
-      keyed.push(15)
+      numberfied.push(16)
     } else {
       console.log('There was an error keying the hash');
     }
+  }
+  // console.log('numberfied:', numberfied);
+
+  for (let j = 0; j < numberfied.length; j++) {
+    // console.log('adding', numberfied[j], 'and', numberfied[j+1]);
+    if (numberfied[j] === 0 && numberfied[j+1] === 0){
+      keyed.push(numberfied[j]);
+    } else {
+      keyed.push((numberfied[j] * numberfied[j+1]) -1);
+    }
+    j++;
   }
   // console.log('keyed array:', keyed);
   key = keyed;

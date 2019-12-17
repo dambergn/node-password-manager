@@ -11,6 +11,12 @@ This is a self hosted node based password manager with client side encryption an
 - node-cmd
 - aes-js
   - https://www.npmjs.com/package/aes-js
+- JavaScript Hashing algorythems
+ - https://asecuritysite.com/encryption/js04
+ - MD5
+ - SH1
+ - SHA-256
+ - SAH-512
 
 ## Features
 - [x] SSL enabled HTTPS
