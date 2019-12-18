@@ -88,10 +88,14 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (input) => {
-  if (input.split(' ')[0] === 'test') {
-    console.log('md5', md5.hex('This is a test'));
-  } else if (input.split(' ')[0] === 'test2') {
-    console.log('md5', md5.b64('This is a test'));
+  if (input.split(' ')[0] === 'md5') {
+    console.log('md5:', md5.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sh1') {
+    console.log('sh1:', sh1.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sha256') {
+    console.log('sha256:', sha256.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sha512') {
+    console.log('sha512:', sha512.hex(input.substr(input.indexOf(' ') + 1)));
   } else {
     console.log(input, 'is not a valid input')
   };
