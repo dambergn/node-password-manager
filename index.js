@@ -20,6 +20,11 @@ const cors = require('cors');
 const readline = require('readline');
 const cmd = require('node-cmd');
 
+const md5 = require('./modules/md5.js');
+const sh1 = require('./modules/sh1.js');
+const sha256 = require('./modules/sha256.js');
+const sha512 = require('./modules/sha512.js');
+
 const PORT = process.env.PORT || 3000;
 const PORTS = process.env.PORTS || 8080;
 const options = {
@@ -83,10 +88,14 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (input) => {
-  if (input.split(' ')[0] === 'com1') {
-    console.log('first command');
-  } else if (input.split(' ')[0] === 'com2') {
-    console.log('second command');
+  if (input.split(' ')[0] === 'md5') {
+    console.log('md5:', md5.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sh1') {
+    console.log('sh1:', sh1.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sha256') {
+    console.log('sha256:', sha256.hex(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'sha512') {
+    console.log('sha512:', sha512.hex(input.substr(input.indexOf(' ') + 1)));
   } else {
     console.log(input, 'is not a valid input')
   };
