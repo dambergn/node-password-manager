@@ -20,10 +20,11 @@ const cors = require('cors');
 const readline = require('readline');
 const cmd = require('node-cmd');
 
-const md5 = require('./modules/md5.js');
-const sh1 = require('./modules/sh1.js');
-const sha256 = require('./modules/sha256.js');
-const sha512 = require('./modules/sha512.js');
+const CLI = require('./modules/CLI.js');
+// const md5 = require('./modules/md5.js');
+// const sh1 = require('./modules/sh1.js');
+// const sha256 = require('./modules/sha256.js');
+// const sha512 = require('./modules/sha512.js');
 
 const PORT = process.env.PORT || 3000;
 const PORTS = process.env.PORTS || 8080;
@@ -32,17 +33,12 @@ const options = {
   cert: fs.readFileSync(process.env.CERT),
 };
 
-// Clears any lingering usage of these ports
-// cmd.run('fuser -k 3000/tcp');
-// cmd.run('fuser -k 8080/tcp');
-
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.enable('trust proxy');
-
 
 
 //Web Front End
@@ -71,14 +67,13 @@ function serverIncriment() {
 
 app.listen(PORT, () => {
   console.log('HTTP Listening on port:', PORT, 'use CTRL+C to close.')
-  // console.log('Server started:', new Date());
-  // console.log('Currently running on Version', serverIncriment())
 });
 
 const server = https.createServer(options, app).listen(PORTS, function () {
   console.log('HTTPS Listening on port:', PORTS, 'use CTRL+C to close.')
   console.log('Server started:', new Date());
-  console.log('Currently running on Version', serverIncriment())
+  console.log('Currently running on Version', serverIncriment());
+  console.log('Type man to see a list of available CLI commands.');
 });
 
 // Admin console commands
@@ -88,14 +83,16 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (input) => {
-  if (input.split(' ')[0] === 'md5') {
-    console.log('md5:', md5.hex(input.substr(input.indexOf(' ') + 1)));
+  if (input.split(' ')[0] === 'man') {
+    CLI.manual();
+  } else if (input.split(' ')[0] === 'md5') {
+    CLI.md5(input.substr(input.indexOf(' ') + 1))
   } else if (input.split(' ')[0] === 'sh1') {
-    console.log('sh1:', sh1.hex(input.substr(input.indexOf(' ') + 1)));
+    CLI.sh1(input.substr(input.indexOf(' ') + 1));
   } else if (input.split(' ')[0] === 'sha256') {
-    console.log('sha256:', sha256.hex(input.substr(input.indexOf(' ') + 1)));
+    CLI.sha256(input.substr(input.indexOf(' ') + 1));
   } else if (input.split(' ')[0] === 'sha512') {
-    console.log('sha512:', sha512.hex(input.substr(input.indexOf(' ') + 1)));
+    CLI.sha512(input.substr(input.indexOf(' ') + 1));
   } else {
     console.log(input, 'is not a valid input')
   };
