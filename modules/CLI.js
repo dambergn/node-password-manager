@@ -18,18 +18,22 @@ exports.manual = function () {
 
 exports.md5 = function (toBeHashed) {
   console.log('md5:', md5.hex(toBeHashed));
+  return md5.hex(toBeHashed)
 };
 
 exports.sh1 = function (toBeHashed) {
   console.log('sh1:', sh1.hex(toBeHashed));
+  return sh1.hex(toBeHashed)
 };
 
 exports.sha256 = function (toBeHashed) {
   console.log('sha256:', sha256.hex(toBeHashed));
+  return sha256.hex(toBeHashed)
 };
 
 exports.sha512 = function (toBeHashed) {
   console.log('sha512:', sha512.hex(toBeHashed));
+  return sha512.hex(toBeHashed)
 };
 
 exports.pbkdf2 = function (password){
@@ -38,4 +42,4 @@ exports.pbkdf2 = function (password){
   let len = 32
   let hashType = sha512.hex(password)
   console.log(keyStretch.pbkdf2(password, salt, iterations, len, hashType));
-}
+};

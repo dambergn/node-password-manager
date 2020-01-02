@@ -7,42 +7,54 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="assets/js/jquery3.3.1.js"></script>
   <script src="assets/js/authentication.js"></script>
-  <title>Password Manager</title>
+  <title>PWM-Login</title>
 </head>
 
 <body>
-  <h1>Password Manager</h1>
-
-  <form id="password-list">
-    <table>
-      <tr>
-        <th>
-          <p>Site/Service</p>
-        </th>
-        <th>
-          <p>Username</p>
-        </th>
-        <th>
-          <p>Password</p>
-        </th>
-      </tr>
-      <tr>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><button>Show</button></td>
-        <td><button>Reset</button></td>
-        <td><button>Edit</button></td>
-      </tr>
-    </table>
-
-  </form>
+  <h1>Login</h1>
+    <form id="login">
+      <input type="text" id="user-name"><br>
+      <input type="password" id="password"><br>
+      <button onclick="login()">Login</button>
+    </form>
+  
 
 
   <script src="assets/js/password-generator.js"></script>
   <script src="assets/js/md5-js.js"></script>
   <script src="assets/js/aes-js.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <script>
+    const server = window.location.href;
+    function login() {
+      event.preventDefault();
+      console.log("Logging in");
+      let userName = document.getElementById("user-name").value
+      let password = document.getElementById("password").value
+      console.log("User Name:", userName);
+      console.log("Password:", password);
+      let loginInfo = {
+        username: userName,
+        password: password
+      }
+      if (userName === "" || password === ""){
+        console.log("Username or Password can not be blank");
+      } else {
+        let loginInfoStringified = JSON.stringify(loginInfo);
+        const URL = server + 'api/login';
+        $.post(URL, loginInfoStringified, function (data, status) {
+          if(status != 'issuccess'){
+            console.log("Login Successfull")
+          } else {
+            console.log("Login Failed");
+          }
+        })
+      }
+      document.getElementById("user-name").value = ""
+      document.getElementById("password").value = ""
+    }
+  </script>
 </body>
 
 </html>

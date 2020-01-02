@@ -1,0 +1,10 @@
+{
+    "users":[
+      {
+        "username" : "user1",
+        "email" : "user1@gmail.com",
+        "password" : "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
+        "permissions" : "admin"
+      }
+    ]
+}
