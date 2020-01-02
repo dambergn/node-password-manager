@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../assets/js/jquery3.3.1.js"></script>
+  <title>PWM-Admin</title>
+</head>
+
+<body>
+  <h1>Admin Page</h1>
+  <form>
+    <p>Email: <input type="text" id="email"></p>
+    <p>Username: <input type="text" id="username"></p>
+    <p>Password: <input type="password" id="password"></p>
+    <p>Confirm: <input type="password" id="confirm"></p>
+    <select id="authorization">
+      <option value="user">User</option>
+      <option value="admin">Administrator</option>
+    </select>
+    <button onclick="newUser()">Submit</button>
+  </form>
+
+  <script>
+    console.log("version2");
+    const server = window.location.href;
+    function confirmPassword() {
+      let pass1 = document.getElementById('password').value;
+      let pass2 = document.getElementById('confirm').value;
+      // console.log('pass1:', pass1, 'pass2:', pass2);
+      if (pass1 === pass2) {
+        // console.log('Passwords match')
+        if (pass1.length === 0 || pass2.length === 0) {
+          document.getElementById("message").innerHTML = "Password Field Cannot be Left Blank";
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        // console.log('passwords do not match')
+        // document.getElementById("message").innerHTML = "Passwords do not match";
+        return false;
+      }
+    };
+
+    function newUser() {
+      event.preventDefault();
+      console.log("Submitting new user")
+      let confirm = confirmPassword();
+      let password = document.getElementById('password').value;
+      let userName = document.getElementById('username').value;
+      let email = document.getElementById('email').value;
+      let authorization = document.getElementById('authorization').value;
+      if (confirm == true) {
+        let users = {
+          username: userName,
+          email: email,
+          password: password,
+          permissions: authorization
+        }
+        userInfoStringified = JSON.stringify(users);
+        const URL = server + 'api/register';
+        console.log("trying:", URL)
+        $.post(URL, userInfoStringified, function (data, status) {
+          if (status != 'issuccess') {
+            console.log("Login Successfull")
+          } else {
+            console.log("Login Failed");
+          }
+        });
+        // console.log("User Name: ", userName);
+        // console.log("Password: ", password);
+        // console.log("Email: ", email);
+        // console.log("Auth: ", authorization);
+      } else {
+        console.log("Passwords do not match!");
+      }
+    }
+  </script>
+</body>
+
+</html>

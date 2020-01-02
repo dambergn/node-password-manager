@@ -15,6 +15,7 @@ require('dotenv').config();
 const http = require('http');
 const https = require('https');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const readline = require('readline');
@@ -40,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.enable('trust proxy');
 
+let users = JSON.parse(fs.readFileSync('database/0users.json'));
 
 //Web Front End
 app.use(function (req, res, next) {
@@ -56,6 +58,27 @@ app.use(express.static('./public'));
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
+
+app.post('/api/login', (req, res) => {
+  let loginInfo = JSON.parse(Object.keys(req.body)[0]);
+  let userName = loginInfo.username;
+  let password = CLI.sha512(loginInfo.password);
+  console.log('username:', userName, '| Password:', password);
+  let authentication = checkUsers(userName, password);
+  if (authentication == true){
+    console.log("User is authenticated");
+    res.status(200);
+  } else {
+    console.log("Incorrect username or password");
+    res.status(403);
+  }
+})
+
+app.post('/admin/api/register', (req, res) => {
+  let registerInfo = JSON.parse(Object.keys(req.body)[0]);
+  console.log(registerInfo);
+  users.users.push(registerInfo)
+})
 
 function serverIncriment() {
   let nodePackage = JSON.parse(fs.readFileSync('package.json'));
@@ -93,7 +116,27 @@ rl.on('line', (input) => {
     CLI.sha256(input.substr(input.indexOf(' ') + 1));
   } else if (input.split(' ')[0] === 'sha512') {
     CLI.sha512(input.substr(input.indexOf(' ') + 1));
+  } else if (input.split(' ')[0] === 'users') {
+    console.log("Users:", users);
   } else {
     console.log(input, 'is not a valid input')
   };
 });
+
+function checkUsers(userName, password) {
+  for(let i = 0; i < users.users.length; i++){
+    let checkingUser = users.users[i].username;
+    let checkingPass = users.users[i].password;
+    if (userName === checkingUser){
+      if (password === checkingPass){
+        return true
+      } else {
+        console.log("Inncorrect password");
+        return false
+      }
+    } else {
+      console.log("Unknown User");
+      return false
+    }
+  }
+}

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="assets/js/jquery3.3.1.js"></script>
-  <title>Manual</title>
+  <title>AES-Manual</title>
 </head>
 
 <body>
@@ -18,12 +18,12 @@
     <p>Confirm: <input type="password" id="master-confirm"></p>
     <button onclick="clear()">Clear Form</button>
     <input id="load" type="file" onchange="loadFile()"></input><br>
-    <p>toProcess: </p>
+    <p>To Process: </p>
     <textarea type="text" id="to-be-processed" style="resize: both; width: 80em; height: 20em;"></textarea><br>
     <button id="encrypt" onclick="encryptPassword()">Encrypt</button>
     <button id="decrypt" onclick="decryptPassword()">Decrypt</button>
     <button id="clear-tobe" onclick="clearTobe()">Clear^</button>
-    <p>Results <button id="save" onclick="saveFile()">Save</button>
+    <p>Results: <button id="save" onclick="saveFile()">Save</button>
       <input id="file-name" placeholder="file-name">.txt
       <button onclick="clearResults()">Clear Results</button></p>
     <textarea type="text" id="results" style="resize: both; width: 80em; height: 20em;"></textarea>
