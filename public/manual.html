@@ -5,19 +5,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="assets/js/jquery3.3.1.js"></script>
   <title>Manual</title>
 </head>
 
 <body>
-  <h1>Manual encryption and decryption tool</h1>
+  <h1>Manual AES encryption and decryption tool</h1>
+  <h2 id="message" style="color: RED;"></h2>
 
   <form id="encrypt-decrypt">
-      <p>Master: </p><input type="password" id="master-password">
-      <p>Confirm: </p><input type="password" id="master-confirm">
-      <p>toProcess: </p><input type="text" id="to-be-processed">
-      <button id="encrypt" onclick="encryptPassword()">Encrypt</button>
-      <button id="decrypt" onclick="decryptPassword()">Decrypt</button>
-      <p>Results</p><input type="text" id="results">
+    <p>Master: <input type="password" id="master-password"></p>
+    <p>Confirm: <input type="password" id="master-confirm"></p>
+    <button onclick="clear()">Clear Form</button>
+    <input id="load" type="file" onchange="loadFile()"></input><br>
+    <p>toProcess: </p>
+    <textarea type="text" id="to-be-processed" style="resize: both; width: 80em; height: 20em;"></textarea><br>
+    <button id="encrypt" onclick="encryptPassword()">Encrypt</button>
+    <button id="decrypt" onclick="decryptPassword()">Decrypt</button>
+    <button id="clear-tobe" onclick="clearTobe()">Clear^</button>
+    <p>Results <button id="save" onclick="saveFile()">Save</button>
+      <input id="file-name" placeholder="file-name">.txt
+      <button onclick="clearResults()">Clear Results</button></p>
+    <textarea type="text" id="results" style="resize: both; width: 80em; height: 20em;"></textarea>
+
   </form>
 
   <script src="assets/js/password-generator.js"></script>
@@ -30,46 +40,111 @@
   <script src="assets/js/main.js"></script>
 
   <script>
-  function confirmMaster () {
-    let pass1 = document.getElementById('master-password').value;
-    let pass2 = document.getElementById('master-confirm').value;
-    // console.log('pass1:', pass1, 'pass2:', pass2);
-    if(pass1 === pass2){
-      // console.log('Passwords match')
-      return true
-    } else {
-      // console.log('passwords do not match')
-      return false
+    function loadFile() {
+      event.preventDefault()
+      console.log("Load file");
+      var x = document.getElementById("load");
+      x.setAttribute("type", "file");
+      // x.disabled = true;
+      // console.log("File:", x.value)
+      var input = x;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var text = reader.result;
+        document.getElementById("to-be-processed").value = reader.result
+      };
+      reader.readAsText(input.files[0]);
     }
-  }
 
-  function encryptPassword(){
-    event.preventDefault()
-    console.log('encrypting password')
-    let check = confirmMaster()
-    if(check === true){
-      let masterPass = document.getElementById('master-password').value;
-      let toBeProcessed = document.getElementById('to-be-processed').value;
-      generateKey(masterPass);
-      let encrypted = encrypt(key, toBeProcessed);
-      console.log('processed: ', encrypted);
-      document.getElementById('results').value = encrypted;
-    }
-  }
+    function download(filename, text) {
+      var pom = document.createElement('a');
+      pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      pom.setAttribute('download', filename);
 
-  function decryptPassword(){
-    event.preventDefault()
-    console.log('decrypting password')
-    let check = confirmMaster()
-    if(check === true){
-      let masterPass = document.getElementById('master-password').value;
-      let toBeProcessed = document.getElementById('to-be-processed').value;
-      generateKey(masterPass);
-      let decrypted = decrypt(key, toBeProcessed);
-      console.log('processed: ', decrypted);
-      document.getElementById('results').value = decrypted;
+      if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+      }
+      else {
+        pom.click();
+      }
     }
-  }
+
+    function saveFile() {
+      event.preventDefault()
+      fileName = document.getElementById("file-name").value
+      if (fileName.length === 0) {
+        document.getElementById("message").innerHTML = "You must specify a file name"
+      } else {
+        download(fileName + '.txt', document.getElementById("results").value);
+      }
+    }
+
+    function confirmMaster() {
+      let pass1 = document.getElementById('master-password').value;
+      let pass2 = document.getElementById('master-confirm').value;
+      // console.log('pass1:', pass1, 'pass2:', pass2);
+      if (pass1 === pass2) {
+        // console.log('Passwords match')
+        if (pass1.length === 0 || pass2.length === 0) {
+          document.getElementById("message").innerHTML = "Password Field Cannot be Left Blank"
+          return false
+        } else {
+          return true
+        }
+      } else {
+        // console.log('passwords do not match')
+        document.getElementById("message").innerHTML = "Passwords do not match"
+        return false
+      }
+    }
+
+    function encryptPassword() {
+      event.preventDefault()
+      // console.log('encrypting password')
+      let check = confirmMaster()
+      if (check === true) {
+        let masterPass = document.getElementById('master-password').value;
+        let toBeProcessed = document.getElementById('to-be-processed').value;
+        generateKey(masterPass);
+        let encrypted = encrypt(key, toBeProcessed);
+        // console.log('processed: ', encrypted);
+        document.getElementById('results').value = encrypted;
+      }
+    }
+
+    function decryptPassword() {
+      event.preventDefault()
+      // console.log('decrypting password')
+      let check = confirmMaster()
+      if (check === true) {
+        let masterPass = document.getElementById('master-password').value;
+        let toBeProcessed = document.getElementById('to-be-processed').value;
+        generateKey(masterPass);
+        let decrypted = decrypt(key, toBeProcessed);
+        // console.log('processed: ', decrypted);
+        document.getElementById('results').value = decrypted;
+      }
+    }
+
+    function clearTobe() {
+      event.preventDefault()
+      document.getElementById("to-be-processed").value = ""
+    }
+
+    function clearResults() {
+      event.preventDefault()
+      document.getElementById("results").value = ""
+    }
+
+    function clear() {
+      event.preventDefault()
+      document.getElementById("master-password").value = ""
+      document.getElementById("master-confirm").value = ""
+      document.getElementById("to-be-processed").value = ""
+      document.getElementById("results").value = ""
+    }
   </script>
 </body>
 
