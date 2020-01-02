@@ -5,7 +5,7 @@
 // length = 128
 // hashType = 'sha512'
 
-pbkdf2 = function (password, salt, iterations, len, hashType) {
+exports.pbkdf2 = function (password, salt, iterations, len, hashType) {
   hashType = hashType || 'sha1';
   if (!Buffer.isBuffer(password)) {
     password = new Buffer(password);

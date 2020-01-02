@@ -5,6 +5,7 @@ const md5 = require('./md5.js');
 const sh1 = require('./sh1.js');
 const sha256 = require('./sha256.js');
 const sha512 = require('./sha512.js');
+const keyStretch = require('./pbkdf2.js');
 
 exports.manual = function () {
   console.log('***Manual Page***');
@@ -30,3 +31,11 @@ exports.sha256 = function (toBeHashed) {
 exports.sha512 = function (toBeHashed) {
   console.log('sha512:', sha512.hex(toBeHashed));
 };
+
+exports.pbkdf2 = function (password){
+  let salt = 1
+  let iterations = 1000
+  let len = 32
+  let hashType = sha512.hex(password)
+  console.log(keyStretch.pbkdf2(password, salt, iterations, len, hashType));
+}

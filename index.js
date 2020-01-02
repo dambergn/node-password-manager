@@ -93,6 +93,8 @@ rl.on('line', (input) => {
     CLI.sha256(input.substr(input.indexOf(' ') + 1));
   } else if (input.split(' ')[0] === 'sha512') {
     CLI.sha512(input.substr(input.indexOf(' ') + 1));
+  } else if (input.split(' ')[0] === 'pbkdf2') {
+    CLI.pbkdf2(input.substr(input.indexOf(' ') + 1));
   } else {
     console.log(input, 'is not a valid input')
   };
