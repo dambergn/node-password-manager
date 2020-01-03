@@ -1,5 +1,5 @@
 # Node Password Manager
-This is a self hosted node based password manager with client side encryption and de-cryption of passwords.
+This is a self hosted node based password manager with client side AES encryption and de-cryption of passwords.
 
 ## installed packages
 - nodemon
@@ -9,9 +9,11 @@ This is a self hosted node based password manager with client side encryption an
 - cors
 - readline
 - node-cmd
+- js-base64
+- jsonwebtoken
 - aes-js
   - https://www.npmjs.com/package/aes-js
-- JavaScript Hashing algorythems
+- JavaScript Hashing algorithms
  - https://asecuritysite.com/encryption/js04
  - MD5
  - SH1
