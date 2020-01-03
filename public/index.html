@@ -45,11 +45,13 @@
         let loginInfoEncoded = btoa(loginInfoStringified);
         const URL = server + 'api/login';
         $.post(URL, loginInfoEncoded, function (data, status) {
-          console.log("login status:", data)
-          if(status != 'issuccess'){
-            console.log("Login Successfull")
-          } else {
+          // console.log("Passed data:", data.jwToken);
+          if(data.jwToken === "Not Authenticated"){
             console.log("Login Failed");
+            
+          } else {
+            console.log("Login Successfull")
+            localStorage.setItem('JWT', JSON.stringify(data.jwToken));
           }
         })
       }

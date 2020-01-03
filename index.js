@@ -76,7 +76,7 @@ app.post('/api/login', (req, res) => {
     });
   } else {
     console.log("Incorrect username or password");
-    res.json({messge: 'Not Authenticated'});
+    res.json({jwToken: 'Not Authenticated'});
   }
 });
 
