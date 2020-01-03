@@ -42,8 +42,10 @@
         console.log("Username or Password can not be blank");
       } else {
         let loginInfoStringified = JSON.stringify(loginInfo);
+        let loginInfoEncoded = btoa(loginInfoStringified);
         const URL = server + 'api/login';
-        $.post(URL, loginInfoStringified, function (data, status) {
+        $.post(URL, loginInfoEncoded, function (data, status) {
+          console.log("login status:", data)
           if(status != 'issuccess'){
             console.log("Login Successfull")
           } else {

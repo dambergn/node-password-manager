@@ -15,6 +15,7 @@ require('dotenv').config();
 const http = require('http');
 const https = require('https');
 const express = require('express');
+const Base64 = require('js-base64').Base64;
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -22,10 +23,6 @@ const readline = require('readline');
 const cmd = require('node-cmd');
 
 const CLI = require('./modules/CLI.js');
-// const md5 = require('./modules/md5.js');
-// const sh1 = require('./modules/sh1.js');
-// const sha256 = require('./modules/sha256.js');
-// const sha512 = require('./modules/sha512.js');
 
 const PORT = process.env.PORT || 3000;
 const PORTS = process.env.PORTS || 8080;
@@ -33,6 +30,7 @@ const options = {
   key: fs.readFileSync(process.env.KEY),
   cert: fs.readFileSync(process.env.CERT),
 };
+const tokenExperation = '1d';
 
 const app = express();
 
@@ -60,19 +58,27 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  let loginInfo = JSON.parse(Object.keys(req.body)[0]);
+  let loginInfoBase64 = Object.keys(req.body)[0];
+  let loginInfoDecoded = Base64.decode(loginInfoBase64);
+  let loginInfo = JSON.parse(loginInfoDecoded);
   let userName = loginInfo.username;
   let password = CLI.sha512(loginInfo.password);
-  console.log('username:', userName, '| Password:', password);
   let authentication = checkUsers(userName, password);
-  if (authentication == true){
+  if (authentication != 'not authenticated'){
     console.log("User is authenticated");
-    res.status(200);
+    jwt.sign(authentication, options.key, {expiresIn: tokenExperation}, (err, token) => {
+      if(err){
+        console.log("error:", err)
+      }
+      res.json({
+        jwToken: token
+      })
+    });
   } else {
     console.log("Incorrect username or password");
-    res.status(403);
+    res.json({messge: 'Not Authenticated'});
   }
-})
+});
 
 app.post('/admin/api/register', (req, res) => {
   let registerInfo = JSON.parse(Object.keys(req.body)[0]);
@@ -111,13 +117,13 @@ rl.on('line', (input) => {
   if (input.split(' ')[0] === 'man') {
     CLI.manual();
   } else if (input.split(' ')[0] === 'md5') {
-    CLI.md5(input.substr(input.indexOf(' ') + 1))
+    console.log("md5:", CLI.md5(input.substr(input.indexOf(' ') + 1)))
   } else if (input.split(' ')[0] === 'sh1') {
-    CLI.sh1(input.substr(input.indexOf(' ') + 1));
+    console.log("sha1:", CLI.sh1(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'sha256') {
-    CLI.sha256(input.substr(input.indexOf(' ') + 1));
+    console.log("sha256:", CLI.sha256(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'sha512') {
-    CLI.sha512(input.substr(input.indexOf(' ') + 1));
+    console.log("sha512:", CLI.sha512(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'pbkdf2') {
     CLI.pbkdf2(input.substr(input.indexOf(' ') + 1));
   } else if (input.split(' ')[0] === 'users') {
@@ -128,18 +134,18 @@ rl.on('line', (input) => {
 });
 
 function checkUsers(userName, password) {
+  let userNameFound = false;
+  let passwordMatches = false;
   for(let i = 0; i < users.users.length; i++){
-    let checkingUser = users.users[i].username;
-    let checkingPass = users.users[i].password;
-    if (userName === checkingUser){
-      if (password === checkingPass){
-        return true
-      } else {
-        console.log("Inncorrect password");
-        return false
+    if(userName === users.users[i].username){
+      userNameFound = true;
+      if(password === users.users[i].password){
+        passwordMatches = true;
+        return users.users[i];
       }
     }
   }
-  console.log("Unknown User");
-      return false
-}
+  if(userNameFound != true || passwordMatches != true){
+    return 'not authenticated';
+  }
+};
