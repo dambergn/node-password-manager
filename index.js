@@ -77,7 +77,9 @@ app.post('/api/login', (req, res) => {
 app.post('/admin/api/register', (req, res) => {
   let registerInfo = JSON.parse(Object.keys(req.body)[0]);
   console.log(registerInfo);
-  users.users.push(registerInfo)
+  registerInfo.password = CLI.sha512(registerInfo.password);
+  users.users.push(registerInfo);
+  fs.writeFileSync('database/0users.json', JSON.stringify(users));
 })
 
 function serverIncriment() {
@@ -136,9 +138,8 @@ function checkUsers(userName, password) {
         console.log("Inncorrect password");
         return false
       }
-    } else {
-      console.log("Unknown User");
-      return false
     }
   }
+  console.log("Unknown User");
+      return false
 }
