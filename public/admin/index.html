@@ -54,29 +54,37 @@
       let email = document.getElementById('email').value;
       let authorization = document.getElementById('authorization').value;
       if (confirm == true) {
-        let users = {
+      // userInfoStringified = JSON.stringify(users);
+      const URL = server + 'api/register';
+      // console.log("trying:", URL)
+      // console.log("test:", {
+      //   authorization: Authorization,
+      //   users: users
+      // });
+      // let jwt = JSON.parse(localStorage.getItem('JWT'))
+      let jwt = localStorage.getItem('JWT')
+      // console.log("JWT:", jwt)
+      $.ajax({
+        type: 'POST',
+        url: URL,
+        dataType: 'json',
+        headers: {
+          'authorization': 'Bearer ' + jwt
+        },
+        data: {
           username: userName,
           email: email,
           password: password,
           permissions: authorization
         }
-        userInfoStringified = JSON.stringify(users);
-        const URL = server + 'api/register';
-        console.log("trying:", URL)
-        $.post(URL, userInfoStringified, function (data, status) {
-          if (status != 'issuccess') {
-            console.log("Login Successfull")
-          } else {
-            console.log("Login Failed");
-          }
-        });
-        // console.log("User Name: ", userName);
-        // console.log("Password: ", password);
-        // console.log("Email: ", email);
-        // console.log("Auth: ", authorization);
-      } else {
-        console.log("Passwords do not match!");
-      }
+      })
+      // console.log("User Name: ", userName);
+      // console.log("Password: ", password);
+      // console.log("Email: ", email);
+      // console.log("Auth: ", authorization);
+    } else {
+      console.log("Passwords do not match!");
+    }
     }
   </script>
 </body>

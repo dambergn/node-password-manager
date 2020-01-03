@@ -64,10 +64,10 @@ app.post('/api/login', (req, res) => {
   let userName = loginInfo.username;
   let password = CLI.sha512(loginInfo.password);
   let authentication = checkUsers(userName, password);
-  if (authentication != 'not authenticated'){
+  if (authentication != 'not authenticated') {
     console.log("User is authenticated");
-    jwt.sign(authentication, options.key, {expiresIn: tokenExperation}, (err, token) => {
-      if(err){
+    jwt.sign(authentication, options.key, { expiresIn: tokenExperation }, (err, token) => {
+      if (err) {
         console.log("error:", err)
       }
       res.json({
@@ -76,17 +76,35 @@ app.post('/api/login', (req, res) => {
     });
   } else {
     console.log("Incorrect username or password");
-    res.json({jwToken: 'Not Authenticated'});
+    res.json({ jwToken: 'Not Authenticated' });
   }
 });
 
-app.post('/admin/api/register', (req, res) => {
-  let registerInfo = JSON.parse(Object.keys(req.body)[0]);
-  console.log(registerInfo);
+
+app.post('/admin/api/register', verifyToken, (req, res) => {
+  // jwt.verify(req.token, options.key, (err, authData) => {
+  //   console.log("JWT:", jwt.decode(req.token))
+  //   if(err){
+  //     // console.log('token:', req.token);
+
+  //     console.log('token error:', err)
+  //     res.sendStatus(403);
+  //   } else {
+  //     let registerInfo = req.body;
+  //     console.log("Body:", req.body);
+  //     registerInfo.password = CLI.sha512(registerInfo.password);
+  //     users.users.push(registerInfo);
+  //     fs.writeFileSync('database/0users.json', JSON.stringify(users));
+  //     res.sendStatus(200);
+  //   }
+  // })
+  let registerInfo = req.body;
+  console.log("Body:", req.body);
   registerInfo.password = CLI.sha512(registerInfo.password);
   users.users.push(registerInfo);
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
-})
+  res.sendStatus(200);
+});
 
 function serverIncriment() {
   let nodePackage = JSON.parse(fs.readFileSync('package.json'));
@@ -136,16 +154,56 @@ rl.on('line', (input) => {
 function checkUsers(userName, password) {
   let userNameFound = false;
   let passwordMatches = false;
-  for(let i = 0; i < users.users.length; i++){
-    if(userName === users.users[i].username){
+  for (let i = 0; i < users.users.length; i++) {
+    if (userName === users.users[i].username) {
       userNameFound = true;
-      if(password === users.users[i].password){
+      if (password === users.users[i].password) {
         passwordMatches = true;
         return users.users[i];
       }
     }
   }
-  if(userNameFound != true || passwordMatches != true){
+  if (userNameFound != true || passwordMatches != true) {
     return 'not authenticated';
+  }
+};
+
+// Verify Token
+function verifyToken(req, res, next) {
+  console.log("Verifying Token")
+  // Get auth header value
+  let bearerHeader = req.headers['authorization'];
+  // Check if bearer is undefied
+  // console.log("header:", bearerHeader)
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    let bearer = bearerHeader.split(' ');
+    // Get toekn from array
+    let bearerToken = bearer[1];
+    // set the token
+    req.token = JSON.parse(bearerToken)
+    // Next middleware
+    console.log("token being passed:", req.token) //this prints the token just fine
+    // setTimeout(function () { console.log("JWT:", jwt.decode(req.token, { complete: true })); }, 3000);
+    // For some reason the jwt.verify runs before it has the JWT and fails as an invalid token of null.
+    let temp = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImY5MjI5MWVmZTMzY2NhMjBkMzJmNzVlYzdkMjQzYzY3NGFiMzBiOGNlMDhkNmY0OTdiMDQxNGUxYjI4ZjVhZDVlYzJhMjNiMzRmOWYxYjE0ODk3ZDdlZDU3M2Q5YzA4ZjFhODRjYTNhM2U2N2FkYzg2MmQyOWZmZGZjNzI4ZTRkIiwicGVybWlzc2lvbnMiOiJhZG1pbiIsImlhdCI6MTU3ODA3NDg2NywiZXhwIjoxNTc4MTYxMjY3fQ.j4ENE7ZibPWDu_rfo3k_-2MvgGCodqqyuYjUHfs2byE";
+    function verify(token){
+      jwt.verify(token, options.key, (err, authData) => {
+        console.log("token inside verify:", token)
+        if (err) {
+          console.log('token error:', err)
+          res.sendStatus(403);
+        } else {
+          console.log("data:", authData)
+          next();
+        }
+      })
+    }
+    verify(req.token);
+
+  } else {
+    // Forbidden
+    console.log('Not Authorized')
+    res.sendStatus(403);
   }
 };

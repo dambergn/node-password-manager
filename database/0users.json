@@ -11,6 +11,24 @@
       "email": "user2@gmail.com",
       "password": "f76e927ffe1cceca660398d3668657cf8f65c518e885a608598f78c45dbb95a55d89a2dcb5a93d32a0178dbf430866fc987c37605424924d71c44273d1c022c2",
       "permissions": "user"
+    },
+    {
+      "username": "user3",
+      "email": "user3",
+      "password": "aeb336aea7bd73713addbe7979e8e50093d1dd50a3f9b33d9788c4ca02ad4fc372f2f153259fbc6b1fb07ba7db187a7bef2e7f6b32b7f5331dd32cb7b49ea95d",
+      "permissions": "user"
+    },
+    {
+      "username": "user4",
+      "email": "user4",
+      "password": "5f9448549bb310bfbb8af0acd449de92a4baea94503ddab3dd46204451d8afa9b22d9bd64f6ea36b729af1030486eab77af17d6b1ccab6e448511053856d30ba",
+      "permissions": "user"
+    },
+    {
+      "username": "user5",
+      "email": "user5",
+      "password": "22730360c2f06feef6560eadb9a28cdc8564b7c39521297385830920a0e5c1c4cd7b919ef3bbb9c67764ce953022a65fa9177a86a281310867d479c1005968e0",
+      "permissions": "user"
     }
   ]
 }
