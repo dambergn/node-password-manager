@@ -27,10 +27,10 @@ This is a self hosted node based password manager with client side AES encryptio
 - [x] Client side AES256 bit encryption and de-cryption
 - [ ] API to send and store encrypted data on server
 - [ ] Login menu
-- [ ] Authentication using JWT
+- [x] Authentication using JWT
   - [x] Server side JWT creation
   - [x] Client side saving JWT in local storage
-  - [ ] Server side verification of JWT from client
+  - [x] Server side verification of JWT from client
 - [ ] Prevent site access without authentication
 - [x] Admin page for registering new users
 - [/] Self hosted json database

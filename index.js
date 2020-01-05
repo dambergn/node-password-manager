@@ -80,24 +80,7 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-
 app.post('/admin/api/register', verifyToken, (req, res) => {
-  // jwt.verify(req.token, options.key, (err, authData) => {
-  //   console.log("JWT:", jwt.decode(req.token))
-  //   if(err){
-  //     // console.log('token:', req.token);
-
-  //     console.log('token error:', err)
-  //     res.sendStatus(403);
-  //   } else {
-  //     let registerInfo = req.body;
-  //     console.log("Body:", req.body);
-  //     registerInfo.password = CLI.sha512(registerInfo.password);
-  //     users.users.push(registerInfo);
-  //     fs.writeFileSync('database/0users.json', JSON.stringify(users));
-  //     res.sendStatus(200);
-  //   }
-  // })
   let registerInfo = req.body;
   console.log("Body:", req.body);
   registerInfo.password = CLI.sha512(registerInfo.password);
@@ -105,6 +88,11 @@ app.post('/admin/api/register', verifyToken, (req, res) => {
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
   res.sendStatus(200);
 });
+
+app.get('/admin', verifyToken, (req, res) => {
+  console.log("admin page hit")
+  res.sendFile('admin/index.html', { root: './public' });
+})
 
 function serverIncriment() {
   let nodePackage = JSON.parse(fs.readFileSync('package.json'));
@@ -174,7 +162,6 @@ function verifyToken(req, res, next) {
   // Get auth header value
   let bearerHeader = req.headers['authorization'];
   // Check if bearer is undefied
-  // console.log("header:", bearerHeader)
   if (typeof bearerHeader !== 'undefined') {
     // Split at the space
     let bearer = bearerHeader.split(' ');
@@ -183,23 +170,15 @@ function verifyToken(req, res, next) {
     // set the token
     req.token = JSON.parse(bearerToken)
     // Next middleware
-    console.log("token being passed:", req.token) //this prints the token just fine
-    // setTimeout(function () { console.log("JWT:", jwt.decode(req.token, { complete: true })); }, 3000);
-    // For some reason the jwt.verify runs before it has the JWT and fails as an invalid token of null.
-    let temp = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20iLCJwYXNzd29yZCI6ImY5MjI5MWVmZTMzY2NhMjBkMzJmNzVlYzdkMjQzYzY3NGFiMzBiOGNlMDhkNmY0OTdiMDQxNGUxYjI4ZjVhZDVlYzJhMjNiMzRmOWYxYjE0ODk3ZDdlZDU3M2Q5YzA4ZjFhODRjYTNhM2U2N2FkYzg2MmQyOWZmZGZjNzI4ZTRkIiwicGVybWlzc2lvbnMiOiJhZG1pbiIsImlhdCI6MTU3ODA3NDg2NywiZXhwIjoxNTc4MTYxMjY3fQ.j4ENE7ZibPWDu_rfo3k_-2MvgGCodqqyuYjUHfs2byE";
-    function verify(token){
-      jwt.verify(token, options.key, (err, authData) => {
-        console.log("token inside verify:", token)
-        if (err) {
-          console.log('token error:', err)
-          res.sendStatus(403);
-        } else {
-          console.log("data:", authData)
-          next();
-        }
-      })
-    }
-    verify(req.token);
+    jwt.verify(req.token, options.key, (err, authData) => {
+      if (err) {
+        console.log('token error:', err)
+        res.sendStatus(403);
+      } else {
+        // console.log("data:", authData)
+        next();
+      }
+    })
 
   } else {
     // Forbidden
