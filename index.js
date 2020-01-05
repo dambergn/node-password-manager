@@ -89,6 +89,21 @@ app.post('/admin/api/register', verifyToken, (req, res) => {
   res.sendStatus(200);
 });
 
+app.post('/admin/api/users', verifyToken, (req, res) => {
+  console.log("requesting users list")
+  let usersNoPW = []
+  for(let i = 0; i < users.users.length; i++){
+    let user = {
+      username: users.users[i].username,
+      email: users.users[i].email,
+      permissions: users.users[i].permissions
+    }
+    usersNoPW.push(user);
+  }
+
+  res.json(usersNoPW);
+})
+
 app.get('/admin', verifyToken, (req, res) => {
   console.log("admin page hit")
   res.sendFile('admin/index.html', { root: './public' });

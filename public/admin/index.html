@@ -9,8 +9,9 @@
   <title>PWM-Admin</title>
 </head>
 
-<body>
+<body onload="loadUsers()">
   <h1>Admin Page</h1>
+  <h2 id="message" style="color: RED;"></h2>
   <form>
     <p>Email: <input type="text" id="email"></p>
     <p>Username: <input type="text" id="username"></p>
@@ -21,11 +22,16 @@
       <option value="admin">Administrator</option>
     </select>
     <button onclick="newUser()">Submit</button>
+  </form><br>
+
+  <!-- <button onclick="loadUsers()">Load Users</button> -->
+
+  <form id="registerd-users">
+    <h3>Registered Users</h3>
   </form>
 
   <script>
-    console.log("version2");
-    const server = window.location.href;
+    const server = window.location.href.replace("?", "");
     function confirmPassword() {
       let pass1 = document.getElementById('password').value;
       let pass2 = document.getElementById('confirm').value;
@@ -54,37 +60,123 @@
       let email = document.getElementById('email').value;
       let authorization = document.getElementById('authorization').value;
       if (confirm == true) {
-      // userInfoStringified = JSON.stringify(users);
-      const URL = server + 'api/register';
-      // console.log("trying:", URL)
-      // console.log("test:", {
-      //   authorization: Authorization,
-      //   users: users
-      // });
-      // let jwt = JSON.parse(localStorage.getItem('JWT'))
+        const URL = server + 'api/register';
+        let jwt = localStorage.getItem('JWT')
+        $.ajax({
+          type: 'POST',
+          url: URL,
+          dataType: 'json',
+          headers: {
+            'authorization': 'Bearer ' + jwt
+          },
+          data: {
+            username: userName,
+            email: email,
+            password: password,
+            permissions: authorization
+          }
+        })
+      } else {
+        console.log("Passwords do not match!");
+      }
+    };
+
+    let users = [];
+    function loadUsers() {
+      event.preventDefault();
+      const URL = server + 'api/users';
       let jwt = localStorage.getItem('JWT')
-      // console.log("JWT:", jwt)
       $.ajax({
         type: 'POST',
         url: URL,
         dataType: 'json',
         headers: {
           'authorization': 'Bearer ' + jwt
-        },
-        data: {
-          username: userName,
-          email: email,
-          password: password,
-          permissions: authorization
         }
+      }).done(function (data) {
+        users = data;
+        populateUserList();
       })
-      // console.log("User Name: ", userName);
-      // console.log("Password: ", password);
-      // console.log("Email: ", email);
-      // console.log("Auth: ", authorization);
-    } else {
-      console.log("Passwords do not match!");
+    };
+
+    function populateUserList() {
+      for (let i = 0; i < users.length; i++) {
+        event.preventDefault();
+        let userList = document.getElementById('registerd-users')
+        let paragraph = document.createElement('p')
+        let text = document.createTextNode('User Name: ')
+        paragraph.appendChild(text)
+        userList.appendChild(paragraph).id = users[i].username
+
+        let paragraphElement = document.getElementById(users[i].username)
+        let userName = document.createElement('input')
+        paragraphElement.appendChild(userName).type = "text"
+        paragraphElement.appendChild(userName).id=`${users[i].username}-name`
+        document.getElementById(`${users[i].username}-name`).value = users[i].username
+
+        let text2 = document.createTextNode('Email: ')
+        paragraphElement.appendChild(text2)
+        let userEmail = document.createElement('input')
+        paragraphElement.appendChild(userEmail).type = "text"
+        paragraphElement.appendChild(userEmail).id=`${users[i].username}-email`
+        document.getElementById(`${users[i].username}-email`).value = users[i].email
+
+        let text3 = document.createTextNode('Permissions: ')
+        paragraphElement.appendChild(text3)
+        let userAuth = document.createElement('select')
+        paragraphElement.appendChild(userAuth).id=`${users[i].username}-auth`
+        
+        let options = document.getElementById(`${users[i].username}-auth`)
+
+        let userAuthOp1 = document.createElement('option')
+        let userAuthOpt1Text = document.createTextNode('User')
+        userAuthOp1.appendChild(userAuthOpt1Text)
+        options.appendChild(userAuthOp1).value = "user"
+
+        let userAuthOp2 = document.createElement('option')
+        let userAuthOpt2Text = document.createTextNode('Administrator')
+        userAuthOp2.appendChild(userAuthOpt2Text)
+        options.appendChild(userAuthOp2).value = "admin"
+
+        options.value = users[i].permissions
+
+        let userUpdate = document.createElement('button')
+        userUpdate.className='user-update'
+        userUpdate.id=`${users[i].username}-update`
+        userUpdate.innerHTML="Update"
+        userUpdate.setAttribute("onclick", "updateUserInfo("+i+")");
+        paragraphElement.appendChild(userUpdate)
+
+        let resetPass = document.createElement('button')
+        resetPass.className='update-password'
+        resetPass.id=`${users[i].username}-password`
+        resetPass.innerHTML="Reset Password"
+        resetPass.setAttribute("onclick", "updateUserPassword("+i+")");
+        paragraphElement.appendChild(resetPass)
+
+        let deleteUser = document.createElement('button')
+        deleteUser.className='delete-user'
+        deleteUser.id=`${users[i].username}-delete`
+        deleteUser.innerHTML="Delete"
+        deleteUser.setAttribute("onclick", "deleteUser("+i+")");
+        paragraphElement.appendChild(deleteUser)
+      }
     }
+
+    function updateUserInfo(i){
+      event.preventDefault();
+      console.log('User', users[i].username, 'info is being updated')
+
+    }
+
+    function updateUserPassword(i){
+      event.preventDefault();
+      console.log('User', users[i].username, 'Password is being updated')
+    }
+
+    function deleteUser(i){
+      event.preventDefault();
+      console.log('User', users[i].username, 'is being deleted')
     }
   </script>
 </body>
