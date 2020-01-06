@@ -80,7 +80,7 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-app.post('/admin/api/register', verifyToken, (req, res) => {
+app.post('/admin/api/register', verifyTokenAdmin, (req, res) => {
   let registerInfo = req.body;
   console.log("Body:", req.body);
   registerInfo.password = CLI.sha512(registerInfo.password);
@@ -89,7 +89,7 @@ app.post('/admin/api/register', verifyToken, (req, res) => {
   res.sendStatus(200);
 });
 
-app.post('/admin/api/users', verifyToken, (req, res) => {
+app.post('/admin/api/users', verifyTokenAdmin, (req, res) => {
   console.log("requesting users list")
   let usersNoPW = []
   for(let i = 0; i < users.users.length; i++){
@@ -100,11 +100,42 @@ app.post('/admin/api/users', verifyToken, (req, res) => {
     }
     usersNoPW.push(user);
   }
-
   res.json(usersNoPW);
 })
 
-app.get('/admin', verifyToken, (req, res) => {
+app.post('/admin/api/users/update', verifyTokenAdmin, (req, res) => {
+  // let authentication = verifyToken
+  // console.log("auth:", authentication)
+  let updateInfo = req.body;
+  console.log("uppdating user", updateInfo)
+  users.users[updateInfo.inDex].username = updateInfo.username
+  users.users[updateInfo.inDex].email = updateInfo.email
+  users.users[updateInfo.inDex].permissions = updateInfo.permissions
+  fs.writeFileSync('database/0users.json', JSON.stringify(users));
+  console.log("userdb: ", users.users[updateInfo.inDex].username, " updated")
+  res.json({'status' : 'success'})
+})
+
+app.post('/admin/api/users/passup', verifyTokenAdmin, (req, res) => {
+  let updatePassword = req.body;
+  let newPass = Base64.decode(updatePassword.password);
+  let hashed = CLI.sha512(newPass);
+  console.log("uppdating user:", Base64.decode(updatePassword.password))
+  users.users[updatePassword.inDex].password = hashed
+  fs.writeFileSync('database/0users.json', JSON.stringify(users));
+  console.log("Password for: ", users.users[updatePassword.inDex].username, " updated")
+  res.json({'status' : 'success'})
+})
+
+app.post('/admin/api/users/delete', verifyTokenAdmin, (req, res) => {
+  let deleting = req.body;
+  console.log("deleteing user", users.users[deleting.inDex])
+  users.users.splice(deleting.inDex, 1)
+  fs.writeFileSync('database/0users.json', JSON.stringify(users));
+  res.json({'status' : 'success'})
+})
+
+app.get('/admin', verifyTokenAdmin, (req, res) => {
   console.log("admin page hit")
   res.sendFile('admin/index.html', { root: './public' });
 })
@@ -190,11 +221,44 @@ function verifyToken(req, res, next) {
         console.log('token error:', err)
         res.sendStatus(403);
       } else {
-        // console.log("data:", authData)
+        // console.log("data:", authData.permissions)
         next();
       }
     })
+  } else {
+    // Forbidden
+    console.log('Not Authorized')
+    res.sendStatus(403);
+  }
+};
 
+// Verify Token Admin
+function verifyTokenAdmin(req, res, next) {
+  console.log("Verifying Token")
+  // Get auth header value
+  let bearerHeader = req.headers['authorization'];
+  // Check if bearer is undefied
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    let bearer = bearerHeader.split(' ');
+    // Get toekn from array
+    let bearerToken = bearer[1];
+    // set the token
+    req.token = JSON.parse(bearerToken)
+    // Next middleware
+    jwt.verify(req.token, options.key, (err, authData) => {
+      if (err) {
+        console.log('token error:', err)
+        res.sendStatus(403);
+      } else {
+        if (authData.permissions === "admin") {
+          next();
+        } else {
+          console.log('Not Authorized')
+          res.sendStatus(403);
+        }
+      }
+    })
   } else {
     // Forbidden
     console.log('Not Authorized')

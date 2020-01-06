@@ -13,14 +13,15 @@
 <body>
   <h1>Login</h1>
     <form id="login">
-      <input type="text" id="user-name"><br>
-      <input type="password" id="password"><br>
+      <P>Username:<input type="text" id="user-name"></P>
+      <P>Password:<input type="password" id="password"></P>
       <button onclick="login()">Login</button>
     </form>
   
 
 
   <script src="assets/js/password-generator.js"></script>
+  <script src="assets/js/storage.js"></script>
   <script src="assets/js/md5-js.js"></script>
   <script src="assets/js/aes-js.js"></script>
   <script src="assets/js/main.js"></script>
@@ -48,7 +49,6 @@
           // console.log("Passed data:", data.jwToken);
           if(data.jwToken === "Not Authenticated"){
             console.log("Login Failed");
-            
           } else {
             console.log("Login Successfull")
             localStorage.setItem('JWT', JSON.stringify(data.jwToken));

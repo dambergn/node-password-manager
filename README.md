@@ -35,21 +35,25 @@ This is a self hosted node based password manager with client side AES encryptio
   - [x] Server side JWT creation
   - [x] Client side saving JWT in local storage
   - [x] Server side verification of JWT from client
+- [ ] Add 2FA
 - [ ] Prevent site access without authentication
+  - [ ] Redirect un-authenticated users back to the home page.
+  - [ ] Common local storage creation and update
 - [/] Self hosted json database
   - [ ] Save database info encrypted
   - [/] Save users login info in single file
   - [ ] Save each users data in their own file
 - [ ] Admin Page
-  - [ ] Register new user
-    - [ ] Verify user does not already exist
-    - [ ] Require valid email address
-    - [ ] Verify passwords match
+  - [x] Register new user
+    - [x] Verify user does not already exist
+    - [x] Require valid email address
+    - [x] Verify passwords match
   - [x] Require valid JWT to register new user
-  - [ ] Require user to have Administrator rights
-  - [ ] Update user info
-  - [ ] Reset Password
-  - [ ] Delete user
+  - [x] Require user to have Administrator rights
+  - [x] Update user info
+  - [x] Reset Password
+    - [ ] Custom prompt boxes to hide password input
+  - [x] Delete user
   - [x] Page for manual encryption and decryption
     - [x] Use master password for key generation
     - [x] Require master password verification
@@ -63,6 +67,7 @@ This is a self hosted node based password manager with client side AES encryptio
 - [ ] Log file method
   - [ ] Login page
   - [ ] Admin page
+  - [ ] errors
 - [ ] CSS pertyfying the app
 
 ## Authentication

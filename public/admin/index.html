@@ -9,9 +9,9 @@
   <title>PWM-Admin</title>
 </head>
 
-<body onload="loadUsers()">
+<body onload="pageLoad()">
   <h1>Admin Page</h1>
-  <h2 id="message" style="color: RED;"></h2>
+  <h2 id="message"></h2>
   <form>
     <p>Email: <input type="text" id="email"></p>
     <p>Username: <input type="text" id="username"></p>
@@ -30,23 +30,45 @@
     <h3>Registered Users</h3>
   </form>
 
+  <script src="assets/js/storage.js"></script>
   <script>
     const server = window.location.href.replace("?", "");
-    function confirmPassword() {
-      let pass1 = document.getElementById('password').value;
-      let pass2 = document.getElementById('confirm').value;
+    let users = [];
+
+    function verifyEmail(email) {
+      console.log("Checking if valid email address formatting");
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    }
+
+    function checkUsername(checking) {
+      console.log("Checking to see if user already exists");
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].username === checking) {
+          document.getElementById("message").innerHTML = "Sorry that username is already in use";
+          document.getElementById("message").style.color = "red";
+          return false
+        }
+      }
+      return true
+    }
+
+    function confirmPassword(pass1, pass2) {
+      // let pass1 = document.getElementById('password').value;
+      // let pass2 = document.getElementById('confirm').value;
       // console.log('pass1:', pass1, 'pass2:', pass2);
       if (pass1 === pass2) {
         // console.log('Passwords match')
         if (pass1.length === 0 || pass2.length === 0) {
           document.getElementById("message").innerHTML = "Password Field Cannot be Left Blank";
+          document.getElementById("message").style.color = "red";
           return false;
         } else {
           return true;
         }
       } else {
         // console.log('passwords do not match')
-        // document.getElementById("message").innerHTML = "Passwords do not match";
+        document.getElementById("message").innerHTML = "Passwords do not match";
+        document.getElementById("message").style.color = "red";
         return false;
       }
     };
@@ -54,12 +76,14 @@
     function newUser() {
       event.preventDefault();
       console.log("Submitting new user")
-      let confirm = confirmPassword();
       let password = document.getElementById('password').value;
+      let validPasswords = confirmPassword(password, document.getElementById('confirm').value);
       let userName = document.getElementById('username').value;
+      let validUserName = checkUsername(userName)
       let email = document.getElementById('email').value;
+      let validEmail = verifyEmail(email)
       let authorization = document.getElementById('authorization').value;
-      if (confirm == true) {
+      if (validPasswords == true && validEmail == true && validUserName == true) {
         const URL = server + 'api/register';
         let jwt = localStorage.getItem('JWT')
         $.ajax({
@@ -76,12 +100,21 @@
             permissions: authorization
           }
         })
+        loadUsers();
+        setTimeout(function () {
+          generateUserLine(users.length - 1);
+        }, 3000);
+        document.getElementById("message").innerHTML = "New user added";
+        document.getElementById("message").style.color = "green";
+        document.getElementById('email').value=""
+        document.getElementById('username').value=""
+        document.getElementById('password').value=""
+        document.getElementById('confirm').value=""
       } else {
         console.log("Passwords do not match!");
       }
     };
 
-    let users = [];
     function loadUsers() {
       event.preventDefault();
       const URL = server + 'api/users';
@@ -95,89 +128,184 @@
         }
       }).done(function (data) {
         users = data;
-        populateUserList();
       })
     };
 
+    function generateUserLine(i) {
+      // event.preventDefault();
+      let userList = document.getElementById('registerd-users')
+      let paragraph = document.createElement('p')
+      let text = document.createTextNode('User Name: ')
+      paragraph.appendChild(text)
+      userList.appendChild(paragraph).id = users[i].username
+
+      let paragraphElement = document.getElementById(users[i].username)
+      let userName = document.createElement('input')
+      paragraphElement.appendChild(userName).type = "text"
+      paragraphElement.appendChild(userName).id = `${users[i].username}-name`
+      document.getElementById(`${users[i].username}-name`).value = users[i].username
+
+      let text2 = document.createTextNode(' Email: ')
+      paragraphElement.appendChild(text2)
+      let userEmail = document.createElement('input')
+      paragraphElement.appendChild(userEmail).type = "text"
+      paragraphElement.appendChild(userEmail).id = `${users[i].username}-email`
+      document.getElementById(`${users[i].username}-email`).value = users[i].email
+
+      let text3 = document.createTextNode(' Permissions: ')
+      paragraphElement.appendChild(text3)
+      let userAuth = document.createElement('select')
+      paragraphElement.appendChild(userAuth).id = `${users[i].username}-auth`
+
+      let options = document.getElementById(`${users[i].username}-auth`)
+
+      let userAuthOp1 = document.createElement('option')
+      let userAuthOpt1Text = document.createTextNode('User')
+      userAuthOp1.appendChild(userAuthOpt1Text)
+      options.appendChild(userAuthOp1).value = "user"
+
+      let userAuthOp2 = document.createElement('option')
+      let userAuthOpt2Text = document.createTextNode('Administrator')
+      userAuthOp2.appendChild(userAuthOpt2Text)
+      options.appendChild(userAuthOp2).value = "admin"
+
+      options.value = users[i].permissions
+
+      let userUpdate = document.createElement('button')
+      userUpdate.className = 'user-update'
+      userUpdate.id = `${users[i].username}-update`
+      userUpdate.innerHTML = "Update"
+      userUpdate.setAttribute("onclick", "updateUserInfo(" + i + ")");
+      paragraphElement.appendChild(userUpdate)
+
+      let resetPass = document.createElement('button')
+      resetPass.className = 'update-password'
+      resetPass.id = `${users[i].username}-password`
+      resetPass.innerHTML = "Reset Password"
+      resetPass.setAttribute("onclick", "updateUserPassword(" + i + ")");
+      paragraphElement.appendChild(resetPass)
+
+      let deleteUser = document.createElement('button')
+      deleteUser.className = 'delete-user'
+      deleteUser.id = `${users[i].username}-delete`
+      deleteUser.innerHTML = "Delete"
+      deleteUser.setAttribute("onclick", "deleteUser(" + i + ")");
+      paragraphElement.appendChild(deleteUser)
+    }
+
     function populateUserList() {
       for (let i = 0; i < users.length; i++) {
-        event.preventDefault();
-        let userList = document.getElementById('registerd-users')
-        let paragraph = document.createElement('p')
-        let text = document.createTextNode('User Name: ')
-        paragraph.appendChild(text)
-        userList.appendChild(paragraph).id = users[i].username
-
-        let paragraphElement = document.getElementById(users[i].username)
-        let userName = document.createElement('input')
-        paragraphElement.appendChild(userName).type = "text"
-        paragraphElement.appendChild(userName).id=`${users[i].username}-name`
-        document.getElementById(`${users[i].username}-name`).value = users[i].username
-
-        let text2 = document.createTextNode('Email: ')
-        paragraphElement.appendChild(text2)
-        let userEmail = document.createElement('input')
-        paragraphElement.appendChild(userEmail).type = "text"
-        paragraphElement.appendChild(userEmail).id=`${users[i].username}-email`
-        document.getElementById(`${users[i].username}-email`).value = users[i].email
-
-        let text3 = document.createTextNode('Permissions: ')
-        paragraphElement.appendChild(text3)
-        let userAuth = document.createElement('select')
-        paragraphElement.appendChild(userAuth).id=`${users[i].username}-auth`
-        
-        let options = document.getElementById(`${users[i].username}-auth`)
-
-        let userAuthOp1 = document.createElement('option')
-        let userAuthOpt1Text = document.createTextNode('User')
-        userAuthOp1.appendChild(userAuthOpt1Text)
-        options.appendChild(userAuthOp1).value = "user"
-
-        let userAuthOp2 = document.createElement('option')
-        let userAuthOpt2Text = document.createTextNode('Administrator')
-        userAuthOp2.appendChild(userAuthOpt2Text)
-        options.appendChild(userAuthOp2).value = "admin"
-
-        options.value = users[i].permissions
-
-        let userUpdate = document.createElement('button')
-        userUpdate.className='user-update'
-        userUpdate.id=`${users[i].username}-update`
-        userUpdate.innerHTML="Update"
-        userUpdate.setAttribute("onclick", "updateUserInfo("+i+")");
-        paragraphElement.appendChild(userUpdate)
-
-        let resetPass = document.createElement('button')
-        resetPass.className='update-password'
-        resetPass.id=`${users[i].username}-password`
-        resetPass.innerHTML="Reset Password"
-        resetPass.setAttribute("onclick", "updateUserPassword("+i+")");
-        paragraphElement.appendChild(resetPass)
-
-        let deleteUser = document.createElement('button')
-        deleteUser.className='delete-user'
-        deleteUser.id=`${users[i].username}-delete`
-        deleteUser.innerHTML="Delete"
-        deleteUser.setAttribute("onclick", "deleteUser("+i+")");
-        paragraphElement.appendChild(deleteUser)
+        generateUserLine(i)
       }
     }
 
-    function updateUserInfo(i){
+    function updateUserInfo(i) {
       event.preventDefault();
-      console.log('User', users[i].username, 'info is being updated')
-
+      // console.log('User', users[i].username, 'info is being updated')
+      const URL = server + 'api/users/update';
+      let jwt = localStorage.getItem('JWT')
+      $.ajax({
+        type: 'POST',
+        url: URL,
+        dataType: 'json',
+        headers: {
+          'authorization': 'Bearer ' + jwt
+        },
+        data: {
+          inDex: i,
+          username: document.getElementById(`${users[i].username}-name`).value,
+          email: document.getElementById(`${users[i].username}-email`).value,
+          permissions: document.getElementById(`${users[i].username}-auth`).value
+        }
+      }).done(function (status) {
+        if (status.status === "success") {
+          // console.log('update successfull');
+          document.getElementById("message").innerHTML = "Update Successfull";
+          document.getElementById("message").style.color = "green";
+        } else {
+          document.getElementById("message").innerHTML = "Update Failed";
+          document.getElementById("message").style.color = "red";
+        }
+      })
     }
 
-    function updateUserPassword(i){
+    // later update with a custom Modal Box
+    // https://www.w3schools.com/howto/howto_css_modals.asp
+    function updateUserPassword(i) {
       event.preventDefault();
-      console.log('User', users[i].username, 'Password is being updated')
+      console.log('User', users[i].username, 'Password is being reset')
+      let pass1 = prompt("Please enter a new password:");
+      let pass2 = prompt("Please confirm new password:");
+      let passCheck = confirmPassword(pass1, pass2);
+      if (passCheck == true) {
+        console.log("Passwords Match")
+        const URL = server + 'api/users/passup';
+        let jwt = localStorage.getItem('JWT')
+        $.ajax({
+          type: 'POST',
+          url: URL,
+          dataType: 'json',
+          headers: {
+            'authorization': 'Bearer ' + jwt
+          },
+          data: {
+            inDex: i,
+            password: btoa(pass1),
+          }
+        }).done(function (status) {
+          if (status.status === "success") {
+            // console.log('update successfull');
+            document.getElementById("message").innerHTML = "Update Successfull";
+            document.getElementById("message").style.color = "green";
+          } else {
+            document.getElementById("message").innerHTML = "Update Failed";
+            document.getElementById("message").style.color = "red";
+          }
+        })
+      } else {
+        console.log("Passwords do not match")
+        document.getElementById("message").innerHTML = "Passwords did not match";
+        document.getElementById("message").style.color = "red";
+      }
     }
 
-    function deleteUser(i){
+    function deleteUser(i) {
       event.preventDefault();
       console.log('User', users[i].username, 'is being deleted')
+      document.getElementById(users[i].username).remove();
+      users.splice([i], 1);
+      const URL = server + 'api/users/delete';
+      let jwt = localStorage.getItem('JWT')
+      $.ajax({
+        type: 'POST',
+        url: URL,
+        dataType: 'json',
+        headers: {
+          'authorization': 'Bearer ' + jwt
+        },
+        data: {
+          inDex: i
+        }
+      }).done(function (status) {
+        if (status.status === "success") {
+          // console.log('update successfull');
+          document.getElementById("message").innerHTML = "User Removal Successfull";
+          document.getElementById("message").style.color = "green";
+        } else {
+          document.getElementById("message").innerHTML = "User Removal Failed";
+          document.getElementById("message").style.color = "red";
+        }
+      })
     }
+
+    function pageLoad() {
+      loadUsers()
+      // Temporary fix, come up with a better solution
+      setTimeout(function () {
+        populateUserList();
+      }, 3000);
+    }
+
   </script>
 </body>
 
