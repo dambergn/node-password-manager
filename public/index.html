@@ -6,25 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="assets/js/jquery3.3.1.js"></script>
-  <script src="assets/js/authentication.js"></script>
   <title>PWM-Login</title>
 </head>
 
 <body>
-  <h1>Login</h1>
-    <form id="login">
-      <P>Username:<input type="text" id="user-name"></P>
-      <P>Password:<input type="password" id="password"></P>
-      <button onclick="login()">Login</button>
-    </form>
-  
+  <form id="login">
+    <h1>Login</h1>
+    <P>Username:<input type="text" id="user-name"></P>
+    <P>Password:<input type="password" id="password"></P>
+    <button onclick="login()">Login</button>
+  </form>
+
+  <form id="logout">
+    <h1>Logged In</h1>
+    <button onclick="logout()">Logout</button>
+  </form>
+
   <footer>
     <script src="assets/js/links.js"></script>
   </footer>
 
 
-  <script src="assets/js/password-generator.js"></script>
   <script src="assets/js/storage.js"></script>
+  <script src="assets/js/authentication.js"></script>
   <script src="assets/js/md5-js.js"></script>
   <script src="assets/js/aes-js.js"></script>
   <script src="assets/js/main.js"></script>
@@ -42,7 +46,7 @@
         username: userName,
         password: password
       }
-      if (userName === "" || password === ""){
+      if (userName === "" || password === "") {
         console.log("Username or Password can not be blank");
       } else {
         let loginInfoStringified = JSON.stringify(loginInfo);
@@ -50,16 +54,53 @@
         const URL = server + 'api/login';
         $.post(URL, loginInfoEncoded, function (data, status) {
           // console.log("Passed data:", data.jwToken);
-          if(data.jwToken === "Not Authenticated"){
+          if (data.jwToken === "Not Authenticated") {
             console.log("Login Failed");
           } else {
             console.log("Login Successfull")
+            localStorage.clear();
             localStorage.setItem('JWT', JSON.stringify(data.jwToken));
+            hideShowLogin();
+            hideShowLogout();
           }
         })
       }
       document.getElementById("user-name").value = ""
       document.getElementById("password").value = ""
+    }
+
+    function logout() {
+      event.preventDefault();
+      console.log("Logged out")
+      localStorage.clear();
+      hideShowLogin();
+      hideShowLogout();
+    }
+
+    function hideShowLogin() {
+      var login = document.getElementById("login");
+      if (login.style.display === "none") {
+        login.style.display = "block";
+      } else {
+        login.style.display = "none";
+      }
+    }
+
+    function hideShowLogout() {
+      var logout = document.getElementById("logout");
+      if (logout.style.display === "none") {
+        logout.style.display = "block";
+      } else {
+        logout.style.display = "none";
+      }
+    }
+
+    if (localStorage.length >= 1) {
+      console.log("logged in")
+      hideShowLogin();
+    } else {
+      console.log("not logged in")
+      hideShowLogout();
     }
   </script>
 </body>
