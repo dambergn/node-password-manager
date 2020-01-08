@@ -18,7 +18,7 @@
   </form>
 
   <form id="logout">
-    <h1>Logged In</h1>
+    <h1 id="logged-in">Logged In</h1>
     <button onclick="logout()">Logout</button>
   </form>
 
@@ -59,7 +59,8 @@
           } else {
             console.log("Login Successfull")
             localStorage.clear();
-            localStorage.setItem('JWT', JSON.stringify(data.jwToken));
+            // localStorage.setItem('JWT', JSON.stringify(data.jwToken));
+            updateLocalStorage({jwt: data.jwToken, user: userName});
             hideShowLogin();
             hideShowLogout();
           }
@@ -67,6 +68,7 @@
       }
       document.getElementById("user-name").value = ""
       document.getElementById("password").value = ""
+      document.getElementById("logged-in").innerHTML=`Logged in as ${userName}`
     }
 
     function logout() {

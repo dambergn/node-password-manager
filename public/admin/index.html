@@ -89,13 +89,13 @@
       let authorization = document.getElementById('authorization').value;
       if (validPasswords == true && validEmail == true && validUserName == true) {
         const URL = server + 'api/register';
-        let jwt = localStorage.getItem('JWT')
+        let localStore = JSON.parse(localStorage.getItem('PWM'))
         $.ajax({
           type: 'POST',
           url: URL,
           dataType: 'json',
           headers: {
-            'authorization': 'Bearer ' + jwt
+            'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
           },
           data: {
             username: userName,
@@ -122,13 +122,13 @@
     function loadUsers() {
       event.preventDefault();
       const URL = server + 'api/users';
-      let jwt = localStorage.getItem('JWT')
+      let localStore = JSON.parse(localStorage.getItem('PWM'))
       $.ajax({
         type: 'POST',
         url: URL,
         dataType: 'json',
         headers: {
-          'authorization': 'Bearer ' + jwt
+          'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
         }
       }).done(function (data) {
         users = data;
@@ -172,7 +172,6 @@
       let userAuthOpt2Text = document.createTextNode('Administrator')
       userAuthOp2.appendChild(userAuthOpt2Text)
       options.appendChild(userAuthOp2).value = "admin"
-
       options.value = users[i].permissions
 
       let userUpdate = document.createElement('button')
@@ -207,13 +206,13 @@
       event.preventDefault();
       // console.log('User', users[i].username, 'info is being updated')
       const URL = server + 'api/users/update';
-      let jwt = localStorage.getItem('JWT')
+      let localStore = JSON.parse(localStorage.getItem('PWM'))
       $.ajax({
         type: 'POST',
         url: URL,
         dataType: 'json',
         headers: {
-          'authorization': 'Bearer ' + jwt
+          'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
         },
         data: {
           inDex: i,
@@ -233,7 +232,7 @@
       })
     }
 
-    // later update with a custom Modal Box
+    // later update with a custom Model Box
     // https://www.w3schools.com/howto/howto_css_modals.asp
     function updateUserPassword(i) {
       event.preventDefault();
@@ -244,13 +243,13 @@
       if (passCheck == true) {
         console.log("Passwords Match")
         const URL = server + 'api/users/passup';
-        let jwt = localStorage.getItem('JWT')
+        let localStore = JSON.parse(localStorage.getItem('PWM'))
         $.ajax({
           type: 'POST',
           url: URL,
           dataType: 'json',
           headers: {
-            'authorization': 'Bearer ' + jwt
+            'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
           },
           data: {
             inDex: i,
@@ -279,13 +278,13 @@
       document.getElementById(users[i].username).remove();
       users.splice([i], 1);
       const URL = server + 'api/users/delete';
-      let jwt = localStorage.getItem('JWT')
+      let localStore = JSON.parse(localStorage.getItem('PWM'))
       $.ajax({
         type: 'POST',
         url: URL,
         dataType: 'json',
         headers: {
-          'authorization': 'Bearer ' + jwt
+          'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
         },
         data: {
           inDex: i

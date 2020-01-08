@@ -1,0 +1,12 @@
+[
+    {
+        "site" : "google.com",
+        "username" : "user1@gmail.com",
+        "password" : "66142c5f9aa3a622a9fe"
+    },
+    {
+        "site" : "myspace.com",
+        "username" : "tom",
+        "password" : "plaintext"
+    }
+]

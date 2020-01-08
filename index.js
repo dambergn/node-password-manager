@@ -136,6 +136,14 @@ app.post('/admin/api/users/delete', verifyTokenAdmin, (req, res) => {
   res.json({'status' : 'success'})
 })
 
+app.post('/api/users', verifyToken, (req, res) => {
+  console.log("requesting users password list")
+  // console.log("requsting from user:", req.body.username)
+  let usersList = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
+
+  res.json(JSON.stringify(usersList));
+})
+
 app.get('/admin', verifyTokenAdmin, (req, res) => {
   console.log("admin page hit")
   res.sendFile('admin/index.html', { root: './public' });
@@ -245,7 +253,7 @@ function verifyTokenAdmin(req, res, next) {
     // Get toekn from array
     let bearerToken = bearer[1];
     // set the token
-    req.token = JSON.parse(bearerToken)
+    req.token = JSON.parse(bearerToken) 
     // Next middleware
     jwt.verify(req.token, options.key, (err, authData) => {
       if (err) {
