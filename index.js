@@ -116,6 +116,7 @@ app.post('/admin/api/users/update', verifyTokenAdmin, (req, res) => {
   res.json({'status' : 'success'})
 })
 
+// Updates a users password
 app.post('/admin/api/users/passup', verifyTokenAdmin, (req, res) => {
   let updatePassword = req.body;
   let newPass = Base64.decode(updatePassword.password);
