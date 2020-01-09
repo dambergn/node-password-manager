@@ -142,10 +142,15 @@ app.post('/api/users', verifyToken, (req, res) => {
   res.json(JSON.stringify(usersList));
 })
 
+// Add new username and password entry
 app.post('/api/users/add', verifyToken, (req, res) => {
   console.log("Adding new entry")
-  let usersList = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
-  res.json(JSON.stringify(usersList));
+  let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
+  // console.log("p1:", toUpdate)
+  toUpdate.push(JSON.parse(req.body.entry))
+  // console.log("p2:", toUpdate)
+  fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
+  res.json({'status' : 'success'})
 })
 
 app.get('/admin', verifyTokenAdmin, (req, res) => {

@@ -83,3 +83,12 @@ This is a self hosted node based password manager with client side AES encryptio
 9. Client recives JWT and saves it in local storage.
 10. After client recives a valid JWT it will request page information from server.
 11. If server recives a valid JWT in its request, it will provide requested content.
+12. Once authenticated client side takes master password and hashes it in SHA256.
+13. Client uses current devices UUID to make a SHA256 hash.
+14. The hashed UUID is then converted into an AES key to encrypt the hashed master password.
+15. The encrypted hash master password is then saved in local storage.
+16. When user requests to decrypt a password (all happens client side)
+  - 1. System hashes system UUID and converts it to make AES key.
+  - 2. System pulls encrypted master password from local storage and uses UUID key to decrypt.
+  - 3. System uses decrypted master password hash to make users AES decryption key.
+  - 4. System uses users key to decrypt their password.
