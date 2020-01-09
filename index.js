@@ -138,9 +138,13 @@ app.post('/admin/api/users/delete', verifyTokenAdmin, (req, res) => {
 
 app.post('/api/users', verifyToken, (req, res) => {
   console.log("requesting users password list")
-  // console.log("requsting from user:", req.body.username)
   let usersList = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
+  res.json(JSON.stringify(usersList));
+})
 
+app.post('/api/users/add', verifyToken, (req, res) => {
+  console.log("Adding new entry")
+  let usersList = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
   res.json(JSON.stringify(usersList));
 })
 
