@@ -1,1 +1,22 @@
-[{"site":"google.com","username":"user1@gmail.com","password":"02a907f59c7d69358ea2"},{"site":"myspace.com","username":"tom","password":"21af2dfe91635e01eaaa08ab9232873d"},{"site":"yahoo.com","username":"user2","password":"02a907f59c7d69358ea2"},{"site":"bankofnowhere.com","username":"brokeascrap","password":"67af2ad7912a2f6596cb0eee"}]
+[
+    {
+        "site": "google.com",
+        "username": "user1@gmail.com",
+        "password": "02a907f59c7d69358ea2"
+    },
+    {
+        "site": "myspace.com",
+        "username": "tom",
+        "password": "069b4dd19b604d699ef07af2b001a816"
+    },
+    {
+        "site": "whitehouse.com",
+        "username": "iknowwhatimdoing",
+        "password": "60f13eb7d85e791f9ae355fd980a832a919133cbb10aa687efbf98429f53d746"
+    },
+    {
+        "site": "pandora.com",
+        "username": "user1",
+        "password": "1eae1ed7917a531a9cf07c9583729514"
+    }
+]

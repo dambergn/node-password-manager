@@ -27,9 +27,9 @@ This is a self hosted node based password manager with client side AES encryptio
 - [x] Client side AES256 bit encryption and de-cryption
 - [ ] API to send and store encrypted data on server
 - [ ] Login menu
-  - [ ] Hide login if already logged in with logout option
-  - [ ] When loged in pull users saved passwords list
-  - [ ] show password field as hidden with a view button
+  - [x] Hide login if already logged in with logout option
+  - [x] When loged in pull users saved passwords list
+  - [x] show password field as hidden with a view button
   - [ ] Coppy password to clipboard button 
 - [x] Authentication using JWT
   - [x] Server side JWT creation
@@ -38,32 +38,41 @@ This is a self hosted node based password manager with client side AES encryptio
 - [ ] Add 2FA
 - [ ] Prevent site access without authentication
   - [ ] Redirect un-authenticated users back to the home page.
-  - [ ] Common local storage creation and update
+  - [x] Common local storage creation and update
 - [/] Self hosted json database
   - [ ] Save database info encrypted
-  - [/] Save users login info in single file
-  - [ ] Save each users data in their own file
+  - [x] Save users login info in single file
+  - [x] Save each users data in their own file
 - [ ] Admin Page
   - [x] Register new user
-    - [x] Verify user does not already exist
-    - [x] Require valid email address
-    - [x] Verify passwords match
+    - [x] Verify user does not already exist.
+    - [x] Require valid email address.
+    - [x] Verify passwords match.
+    - [ ] Create new JSON file for user data.
   - [x] Require valid JWT to register new user
   - [x] Require user to have Administrator rights
   - [x] Update user info
   - [x] Reset Password
     - [ ] Custom prompt boxes to hide password input
   - [x] Delete user
-  - [x] Page for manual encryption and decryption
-    - [x] Use master password for key generation
-    - [x] Require master password verification
-    - [x] Processign field
-    - [x] Encrypt / Decrypt Buttons
-    - [x] Resuls field for encrypted or decrypted data
-    - [x] Clear buttons for processing and results fields
-    - [x] File upload method for processing
-    - [x] Save results to text file
-    - [x] Field for custom file name
+- [x] Page for manual encryption and decryption
+  - [x] Use master password for key generation
+  - [x] Require master password verification
+  - [x] Processign field
+  - [x] Encrypt / Decrypt Buttons
+  - [x] Resuls field for encrypted or decrypted data
+  - [x] Clear buttons for processing and results fields
+  - [x] File upload method for processing
+  - [x] Save results to text file
+  - [x] Field for custom file name
+- [x] Users stored passwords page
+ - [x] Populate list of sites, usernames, passwords.
+ - [x] New Entry field to add sites and passwords.
+ - [x] Incorporate password generator with custom options.
+ - [x] Show/Hide password button.
+ - [x] Generate new password for existing entry.
+ - [x] Update entry information button.
+ - [x] Delete entry information button.
 - [ ] Log file method
   - [ ] Login page
   - [ ] Admin page
