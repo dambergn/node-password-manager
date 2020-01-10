@@ -154,11 +154,13 @@ app.post('/api/users/add', verifyToken, (req, res) => {
 })
 
 // Remove username and password entry
-app.post('/api/users/remove', verifyToken, (req, res) => {
-  console.log("Removing entry from:", req.body.username)
+app.post('/api/users/update', verifyToken, (req, res) => {
+  console.log("Updating entry from:", req.body.username)
   let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
-  console.log("deleteing entry", toUpdate[req.body.inDex])
-  toUpdate.splice(req.body.inDex, 1)
+  console.log("updating entry", toUpdate[req.body.inDex])
+  toUpdate[req.body.inDex].site = req.body.site;
+  toUpdate[req.body.inDex].username = req.body.siteUserName;
+  toUpdate[req.body.inDex].password = req.body.sitePassword;
   fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
   res.json({'status' : 'success'})
 })
