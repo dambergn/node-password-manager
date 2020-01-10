@@ -111,8 +111,11 @@
       if (check === true) {
         let masterPass = document.getElementById('master-password').value;
         let toBeProcessed = document.getElementById('to-be-processed').value;
-        generateKey(masterPass);
-        let encrypted = encrypt(key, toBeProcessed);
+        // let masterPassHashed = hex_sha256(masterPass)
+        console.log('Hashed password:', hex_sha256(masterPass))
+        let masterPassKey = generateKey(masterPassHashed);
+        // console.log('keyed pass:', masterPassKey)
+        let encrypted = encrypt(masterPassKey, toBeProcessed);
         // console.log('processed: ', encrypted);
         document.getElementById('results').value = encrypted;
       }
@@ -125,8 +128,11 @@
       if (check === true) {
         let masterPass = document.getElementById('master-password').value;
         let toBeProcessed = document.getElementById('to-be-processed').value;
-        generateKey(masterPass);
-        let decrypted = decrypt(key, toBeProcessed);
+        let masterPassHashed = hex_sha256(masterPass)
+        // console.log('Hashed password:', hex_sha256(masterPass))
+        let masterPassKey = generateKey(masterPassHashed);
+        // generateKey(masterPass);
+        let decrypted = decrypt(masterPassKey, toBeProcessed);
         // console.log('processed: ', decrypted);
         document.getElementById('results').value = decrypted;
       }

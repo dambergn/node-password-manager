@@ -153,6 +153,16 @@ app.post('/api/users/add', verifyToken, (req, res) => {
   res.json({'status' : 'success'})
 })
 
+// Remove username and password entry
+app.post('/api/users/remove', verifyToken, (req, res) => {
+  console.log("Removing entry from:", req.body.username)
+  let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
+  console.log("deleteing entry", toUpdate[req.body.inDex])
+  toUpdate.splice(req.body.inDex, 1)
+  fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
+  res.json({'status' : 'success'})
+})
+
 app.get('/admin', verifyTokenAdmin, (req, res) => {
   console.log("admin page hit")
   res.sendFile('admin/index.html', { root: './public' });

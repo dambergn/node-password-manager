@@ -9,7 +9,7 @@
 //               29, 30, 31];
 // numbers can be between 0 - 255
 
-let key = [];
+// let key = [];
 let passwordENC = '';
 
 // Convert password to a usable key
@@ -51,7 +51,8 @@ function generateKey(pass) {
     j++;
   }
   // console.log('keyed array:', keyed);
-  key = keyed;
+  // key = keyed;
+  return keyed
 };
 
 function encrypt(key, toBeEnc) {

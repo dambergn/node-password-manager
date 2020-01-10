@@ -30,6 +30,7 @@
   <script src="assets/js/storage.js"></script>
   <script src="assets/js/authentication.js"></script>
   <script src="assets/js/md5-js.js"></script>
+  <script src="assets/js/sha256.js"></script>
   <script src="assets/js/aes-js.js"></script>
   <script src="assets/js/main.js"></script>
 
@@ -60,7 +61,11 @@
             console.log("Login Successfull")
             localStorage.clear();
             // localStorage.setItem('JWT', JSON.stringify(data.jwToken));
-            updateLocalStorage({jwt: data.jwToken, user: userName});
+            let hashedToken = hex_sha256(data.jwToken)
+            let keyedToken = generateKey(hashedToken)
+            let encryptedMasterHash = encrypt(keyedToken, hex_sha256(password))
+            console.log("Master Hash:", hex_sha256(password))
+            updateLocalStorage({jwt: data.jwToken, user: userName, key: encryptedMasterHash});
             hideShowLogin();
             hideShowLogout();
           }
