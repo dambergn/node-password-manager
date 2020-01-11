@@ -38,6 +38,16 @@ else
   echo "ssl" >> .gitignore
 fi
 
+# if [ -f "database/0users.json" ]; then
+#   echo "<<< initial database already exists >>>"
+# else
+#   echo "<<< Generating database files >>>"
+#   touch database/0users.json
+#   echo "node_modules" >> database/0users.json
+#   echo ".env" >> database/0users.json
+#   echo "ssl" database/0users.json
+# fi
+
 # Check if node is installed
 echo "<<< Checking software dependencies >>>"
 if ! [ -x "$(command -v node)" ]; then

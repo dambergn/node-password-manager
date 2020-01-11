@@ -1,52 +1,50 @@
-{
-    "users": [
-        {
-            "username": "user1",
-            "email": "user1@gmail.com",
-            "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
-            "permissions": "admin"
-        },
-        {
-            "username": "alaman",
-            "email": "wierdude@gmail.com",
-            "password": "f76e927ffe1cceca660398d3668657cf8f65c518e885a608598f78c45dbb95a55d89a2dcb5a93d32a0178dbf430866fc987c37605424924d71c44273d1c022c2",
-            "permissions": "user"
-        },
-        {
-            "username": "user3",
-            "email": "user3@hotmail.com",
-            "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
-            "permissions": "user"
-        },
-        {
-            "username": "user4",
-            "email": "user4@hotlink.net",
-            "password": "5f9448549bb310bfbb8af0acd449de92a4baea94503ddab3dd46204451d8afa9b22d9bd64f6ea36b729af1030486eab77af17d6b1ccab6e448511053856d30ba",
-            "permissions": "user"
-        },
-        {
-            "username": "user5",
-            "email": "user5@gmail.com",
-            "password": "1ec522ba32b79915426bdebe14739c56802ca1bb01792f096a29a3cf4f427e62a99afa0593e591eeff33048218387d905245a7de67deb1457499c891e79683ba",
-            "permissions": "user"
-        },
-        {
-            "username": "user6",
-            "email": "user6@gmail.com",
-            "password": "1ec522ba32b79915426bdebe14739c56802ca1bb01792f096a29a3cf4f427e62a99afa0593e591eeff33048218387d905245a7de67deb1457499c891e79683ba",
-            "permissions": "user"
-        },
-        {
-            "username": "user7",
-            "email": "user7@gmail.com",
-            "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
-            "permissions": "user"
-        },
-        {
-            "username": "user8",
-            "email": "user8@gmail.com",
-            "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
-            "permissions": "user"
-        }
-    ]
-}
+[
+    {
+        "username": "user1",
+        "email": "user1@gmail.com",
+        "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
+        "permissions": "admin"
+    },
+    {
+        "username": "alaman",
+        "email": "wierdude@gmail.com",
+        "password": "f76e927ffe1cceca660398d3668657cf8f65c518e885a608598f78c45dbb95a55d89a2dcb5a93d32a0178dbf430866fc987c37605424924d71c44273d1c022c2",
+        "permissions": "user"
+    },
+    {
+        "username": "user3",
+        "email": "user3@hotmail.com",
+        "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
+        "permissions": "user"
+    },
+    {
+        "username": "user4",
+        "email": "user4@hotlink.net",
+        "password": "5f9448549bb310bfbb8af0acd449de92a4baea94503ddab3dd46204451d8afa9b22d9bd64f6ea36b729af1030486eab77af17d6b1ccab6e448511053856d30ba",
+        "permissions": "user"
+    },
+    {
+        "username": "user5",
+        "email": "user5@gmail.com",
+        "password": "1ec522ba32b79915426bdebe14739c56802ca1bb01792f096a29a3cf4f427e62a99afa0593e591eeff33048218387d905245a7de67deb1457499c891e79683ba",
+        "permissions": "user"
+    },
+    {
+        "username": "user6",
+        "email": "user6@gmail.com",
+        "password": "1ec522ba32b79915426bdebe14739c56802ca1bb01792f096a29a3cf4f427e62a99afa0593e591eeff33048218387d905245a7de67deb1457499c891e79683ba",
+        "permissions": "user"
+    },
+    {
+        "username": "user07",
+        "email": "user7@gmail.com",
+        "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
+        "permissions": "user"
+    },
+    {
+        "username": "user8",
+        "email": "user8@gmail.com",
+        "password": "f92291efe33cca20d32f75ec7d243c674ab30b8ce08d6f497b0414e1b28f5ad5ec2a23b34f9f1b14897d7ed573d9c08f1a84ca3a3e67adc862d29ffdfc728e4d",
+        "permissions": "user"
+    }
+]

@@ -84,7 +84,7 @@ app.post('/admin/api/register', verifyTokenAdmin, (req, res) => {
   let registerInfo = req.body;
   console.log("Body:", req.body);
   registerInfo.password = CLI.sha512(registerInfo.password);
-  users.users.push(registerInfo);
+  users.push(registerInfo);
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
   fs.writeFileSync(`database/${registerInfo.username}.json`), JSON.stringify('[]');
   res.sendStatus(200);
@@ -93,11 +93,11 @@ app.post('/admin/api/register', verifyTokenAdmin, (req, res) => {
 app.post('/admin/api/users', verifyTokenAdmin, (req, res) => {
   console.log("requesting users list")
   let usersNoPW = []
-  for(let i = 0; i < users.users.length; i++){
+  for(let i = 0; i < users.length; i++){
     let user = {
-      username: users.users[i].username,
-      email: users.users[i].email,
-      permissions: users.users[i].permissions
+      username: users[i].username,
+      email: users[i].email,
+      permissions: users[i].permissions
     }
     usersNoPW.push(user);
   }
@@ -109,11 +109,11 @@ app.post('/admin/api/users/update', verifyTokenAdmin, (req, res) => {
   // console.log("auth:", authentication)
   let updateInfo = req.body;
   console.log("uppdating user", updateInfo)
-  users.users[updateInfo.inDex].username = updateInfo.username
-  users.users[updateInfo.inDex].email = updateInfo.email
-  users.users[updateInfo.inDex].permissions = updateInfo.permissions
+  users[updateInfo.inDex].username = updateInfo.username
+  users[updateInfo.inDex].email = updateInfo.email
+  users[updateInfo.inDex].permissions = updateInfo.permissions
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
-  console.log("userdb: ", users.users[updateInfo.inDex].username, " updated")
+  console.log("userdb: ", users[updateInfo.inDex].username, " updated")
   res.json({'status' : 'success'})
 })
 
@@ -123,16 +123,16 @@ app.post('/admin/api/users/passup', verifyTokenAdmin, (req, res) => {
   let newPass = Base64.decode(updatePassword.password);
   let hashed = CLI.sha512(newPass);
   console.log("uppdating user:", Base64.decode(updatePassword.password))
-  users.users[updatePassword.inDex].password = hashed
+  users[updatePassword.inDex].password = hashed
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
-  console.log("Password for: ", users.users[updatePassword.inDex].username, " updated")
+  console.log("Password for: ", users[updatePassword.inDex].username, " updated")
   res.json({'status' : 'success'})
 })
 
 app.post('/admin/api/users/delete', verifyTokenAdmin, (req, res) => {
   let deleting = req.body;
-  console.log("deleteing user", users.users[deleting.inDex])
-  users.users.splice(deleting.inDex, 1)
+  console.log("deleteing user", users[deleting.inDex])
+  users.splice(deleting.inDex, 1)
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
   res.json({'status' : 'success'})
 })
@@ -229,12 +229,12 @@ rl.on('line', (input) => {
 function checkUsers(userName, password) {
   let userNameFound = false;
   let passwordMatches = false;
-  for (let i = 0; i < users.users.length; i++) {
-    if (userName === users.users[i].username) {
+  for (let i = 0; i < users.length; i++) {
+    if (userName === users[i].username) {
       userNameFound = true;
-      if (password === users.users[i].password) {
+      if (password === users[i].password) {
         passwordMatches = true;
-        return users.users[i];
+        return users[i];
       }
     }
   }
