@@ -86,7 +86,8 @@ app.post('/admin/api/register', verifyTokenAdmin, (req, res) => {
   registerInfo.password = CLI.sha512(registerInfo.password);
   users.push(registerInfo);
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
-  fs.writeFileSync(`database/${registerInfo.username}.json`), JSON.stringify('[]');
+  // fs.writeFileSync(`database/${registerInfo.username}.json`), '[]';
+  cmd.run(`echo "[]" >> database/${registerInfo.username}.json`)
   res.sendStatus(200);
 });
 
@@ -132,6 +133,7 @@ app.post('/admin/api/users/passup', verifyTokenAdmin, (req, res) => {
 app.post('/admin/api/users/delete', verifyTokenAdmin, (req, res) => {
   let deleting = req.body;
   console.log("deleteing user", users[deleting.inDex])
+  cmd.run(`rm -rf database/${users[deleting.inDex].username}.json`)
   users.splice(deleting.inDex, 1)
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
   res.json({'status' : 'success'})

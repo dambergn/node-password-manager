@@ -287,7 +287,8 @@
           'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
         },
         data: {
-          inDex: i
+          inDex: i,
+          localStore: user
         }
       }).done(function (status) {
         if (status.status === "success") {

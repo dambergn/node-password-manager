@@ -1,22 +1,12 @@
 [
     {
-        "site": "google.com",
-        "username": "user1@gmail.com",
-        "password": "02a907f59c7d69358ea2"
-    },
-    {
         "site": "myspace.com",
         "username": "tom",
-        "password": "069b4dd19b604d699ef07af2b001a816"
-    },
-    {
-        "site": "whitehouse.com",
-        "username": "iknowwhatimdoing",
-        "password": "60f13eb7d85e791f9ae355fd980a832a919133cbb10aa687efbf98429f53d746"
+        "password": "02a907f59c7d69358ea2"
     },
     {
         "site": "pandora.com",
         "username": "user1",
-        "password": "1eae1ed7917a531a9cf07c9583729514"
+        "password": "62980cb6a4404d39e9ff0a80c41aa54c"
     }
 ]
