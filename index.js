@@ -106,10 +106,12 @@ app.post('/admin/api/users', verifyTokenAdmin, (req, res) => {
 })
 
 app.post('/admin/api/users/update', verifyTokenAdmin, (req, res) => {
-  // let authentication = verifyToken
-  // console.log("auth:", authentication)
   let updateInfo = req.body;
   console.log("uppdating user", updateInfo)
+  if(updateInfo.username !== users[updateInfo.inDex].username){
+    console.log("changing filename from", updateInfo.username, "to", users[updateInfo.inDex].username);
+    cmd.run(`mv database/${users[updateInfo.inDex].username}.json database/${updateInfo.username}.json`)
+  }
   users[updateInfo.inDex].username = updateInfo.username
   users[updateInfo.inDex].email = updateInfo.email
   users[updateInfo.inDex].permissions = updateInfo.permissions

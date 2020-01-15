@@ -232,6 +232,10 @@
       }).done(function (status) {
         if (status.status === "success") {
           // console.log('update successfull');
+          if(localStore.user === users[i].username){
+            
+          }
+          updateLocalStorage({user: users[i].username,});
           document.getElementById("message").innerHTML = "Update Successfull";
           document.getElementById("message").style.color = "green";
         } else {
