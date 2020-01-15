@@ -10,6 +10,10 @@
 </head>
 
 <body>
+  <header>
+    <script src="assets/js/header.js"></script>
+  </header>
+
   <form id="login">
     <h1>Login</h1>
     <P>Username:<input type="text" id="user-name"></P>
@@ -21,9 +25,9 @@
     <h1 id="logged-in">Logged In</h1>
     <button onclick="logout()">Logout</button>
   </form>
-
+    <script src="assets/js/footer.js"></script>
   <footer>
-    <script src="assets/js/links.js"></script>
+    
   </footer>
 
 
@@ -64,7 +68,7 @@
             let hashedToken = hex_sha256(data.jwToken)
             let keyedToken = generateKey(hashedToken)
             let encryptedMasterHash = encrypt(keyedToken, hex_sha256(password))
-            console.log("Master Hash:", hex_sha256(password))
+            // console.log("Master Hash:", hex_sha256(password))
             updateLocalStorage({jwt: data.jwToken, user: userName, key: encryptedMasterHash});
             hideShowLogin();
             hideShowLogout();

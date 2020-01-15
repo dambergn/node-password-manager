@@ -10,6 +10,9 @@
 </head>
 
 <body onload="pageLoad()">
+  <header>
+    <script src="../assets/js/header.js"></script>
+  </header>
   <h1>Admin Page</h1>
   <h2 id="message"></h2>
   <form>
@@ -29,9 +32,9 @@
   <form id="registerd-users">
     <h3>Registered Users</h3>
   </form>
-
+  <h2 id="message"></h2>
   <footer>
-    <script src="../assets/js/links.js"></script>
+    <script src="../assets/js/footer.js"></script>
   </footer>
 
   <script src="../assets/js/storage.js"></script>
@@ -110,10 +113,10 @@
         }, 3000);
         document.getElementById("message").innerHTML = "New user added";
         document.getElementById("message").style.color = "green";
-        document.getElementById('email').value=""
-        document.getElementById('username').value=""
-        document.getElementById('password').value=""
-        document.getElementById('confirm').value=""
+        document.getElementById('email').value = ""
+        document.getElementById('username').value = ""
+        document.getElementById('password').value = ""
+        document.getElementById('confirm').value = ""
       } else {
         console.log("Passwords do not match!");
       }
@@ -129,6 +132,12 @@
         dataType: 'json',
         headers: {
           'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
+        },
+        statusCode: {
+          403: function () {
+            document.getElementById("message").innerHTML = "You are not authorized on this page!";
+            document.getElementById("message").style.color = "red";
+          }
         }
       }).done(function (data) {
         users = data;
