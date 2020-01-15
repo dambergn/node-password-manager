@@ -25,9 +25,10 @@ This is a self hosted node based password manager with client side AES encryptio
 - [x] Redirect from HTTP to HTTPS
 - [x] Client side javascript MD5 hashing
 - [x] Client side AES256 bit encryption and de-cryption
-- [ ] API to send and store encrypted data on server
+- [x] API to send and store encrypted data on server
 - [ ] Login menu
   - [x] Hide login if already logged in with logout option
+- [ ] Password page
   - [x] When loged in pull users saved passwords list
   - [x] show password field as hidden with a view button
   - [ ] Coppy password to clipboard button.
@@ -39,8 +40,8 @@ This is a self hosted node based password manager with client side AES encryptio
 - [ ] Prevent site access without authentication.
   - [ ] Redirect un-authenticated users back to the home page.
   - [x] Common local storage creation and update.
-- [/] Self hosted json database.
-  - [ ] Save database info encrypted.
+- [x] Self hosted json database.
+  - [x] Save database info encrypted.
   - [x] Save users login info in single file.
   - [x] Save each users data in their own file.
 - [ ] Admin Page.
@@ -48,7 +49,7 @@ This is a self hosted node based password manager with client side AES encryptio
     - [x] Verify user does not already exist.
     - [x] Require valid email address.
     - [x] Verify passwords match.
-    - [ ] Create new JSON file for user data.
+    - [x] Create new JSON file for user data.
   - [x] Require valid JWT to register new user.
   - [x] Require user to have Administrator rights.
   - [x] Update user info.
@@ -56,7 +57,7 @@ This is a self hosted node based password manager with client side AES encryptio
   - [x] Reset Password.
     - [ ] Custom prompt boxes to hide password input.
   - [x] Delete user.
-   - [ ] Delete users password file.
+   - [x] Delete users password file.
 - [x] Page for manual encryption and decryption
   - [x] Use master password for key generation
   - [x] Require master password verification
@@ -75,6 +76,13 @@ This is a self hosted node based password manager with client side AES encryptio
  - [x] Generate new password for existing entry.
  - [x] Update entry information button.
  - [x] Delete entry information button.
+- [ ] Encrypted notes page
+  -  [ ] Save list of encrypted txt files that can be viewed in browser
+- [ ] Encrypted file storage
+  - [ ] File upload method
+  - [ ] File download method
+  - [ ] encrypt files for storage
+  - [ ] decrypt files after download
 - [ ] Log file method
   - [ ] Login page
   - [ ] Admin page

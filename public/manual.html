@@ -10,6 +10,10 @@
 </head>
 
 <body>
+  <header>
+    <script src="assets/js/header.js"></script>
+  </header>
+
   <h1>Manual AES encryption and decryption tool</h1>
   <h2 id="message" style="color: RED;"></h2>
 
@@ -30,7 +34,7 @@
   </form>
 
   <footer>
-    <script src="assets/js/links.js"></script>
+    <script src="assets/js/footer.js"></script>
   </footer>
 
   
@@ -111,7 +115,7 @@
       if (check === true) {
         let masterPass = document.getElementById('master-password').value;
         let toBeProcessed = document.getElementById('to-be-processed').value;
-        // let masterPassHashed = hex_sha256(masterPass)
+        let masterPassHashed = hex_sha256(masterPass)
         console.log('Hashed password:', hex_sha256(masterPass))
         let masterPassKey = generateKey(masterPassHashed);
         // console.log('keyed pass:', masterPassKey)

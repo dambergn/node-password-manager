@@ -171,9 +171,7 @@ app.post('/api/users/update', verifyToken, (req, res) => {
   console.log("Updating entry from:", req.body.username)
   let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
   console.log("updating entry", toUpdate[req.body.inDex])
-  toUpdate[req.body.inDex].site = req.body.site;
-  toUpdate[req.body.inDex].username = req.body.siteUserName;
-  toUpdate[req.body.inDex].password = req.body.sitePassword;
+  toUpdate[req.body.inDex] = req.body.update;
   fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
   res.json({'status' : 'success'})
 })
