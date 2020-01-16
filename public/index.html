@@ -43,7 +43,7 @@
     function login() {
       event.preventDefault();
       console.log("Logging in");
-      let userName = document.getElementById("user-name").value
+      let userName = (document.getElementById("user-name").value).toLowerCase();
       let password = document.getElementById("password").value
       console.log("User Name:", userName);
       console.log("Password:", password);
