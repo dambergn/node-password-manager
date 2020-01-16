@@ -53,11 +53,14 @@ This is a self hosted node based password manager with client side AES encryptio
   - [x] Require valid JWT to register new user.
   - [x] Require user to have Administrator rights.
   - [x] Update user info.
-    - [ ] If username is updated, remove old json file and create new one.
+    - [ ] If username is updated, re name old json file.
   - [x] Reset Password.
     - [ ] Custom prompt boxes to hide password input.
   - [x] Delete user.
    - [x] Delete users password file.
+- [ ] User account managment page
+- [ ] Password Difficulty Checker
+- [ ] Bad password checker(checks against list of known used and hacked passwords)
 - [x] Page for manual encryption and decryption
   - [x] Use master password for key generation
   - [x] Require master password verification
