@@ -89,6 +89,192 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] errors
 - [ ] CSS pertyfying the app
 
+### Store types
+- [ ] Folders/Organizational Groups
+- [ ] Passwords
+  - [ ] URL
+  - [ ] Name
+  - [ ] Username
+  - [ ] Site Password
+  - [ ] Notes
+  - [ ] Folder
+- [ ] Encrypted Notes
+  - [ ] Name
+  - [ ] Note
+  - [ ] Folder
+- [ ] Address Book
+  - [ ] Address information (to much to add right now)
+- [ ] Credit/Debeit cards
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Name On Card
+  - [ ] Type
+  - [ ] Number
+  - [ ] Security Code
+  - [ ] Issued Date
+  - [ ] Experation Date
+  - [ ] Notes
+- [ ] Bank Accounts
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Bank Name
+  - [ ] Account Type
+  - [ ] Routing Number
+  - [ ] Account Number
+  - [ ] IBAN Number
+  - [ ] PIN
+  - [ ] Branch Address
+  - [ ] Branch Phone
+  - [ ] Notes
+- [ ] Crypto Accounts
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Wallet Address
+  - [ ] URL for online wallet
+  - [ ] Private Key
+  - [ ] Pass Phrase
+  - [ ] Keystore File
+#### Options
+- [ ] Email Accounts
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Username
+  - [ ] Password
+  - [ ] Server
+  - [ ] Port
+  - [ ] Type
+  - [ ] SMTP Server
+  - [ ] SMTP Port
+  - [ ] Notes
+- [ ] Software Licences
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Licence Key
+  - [ ] Licensee
+  - [ ] Version
+  - [ ] Publisher
+  - [ ] Support Email
+  - [ ] Website
+  - [ ] Price
+  - [ ] Purchase Date
+  - [ ] Order Number
+  - [ ] Number of Licences
+  - [ ] Order Total
+  - [ ] Notes
+- [ ] Drivers Licence
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Number
+  - [ ] Experation Date
+  - [ ] License Class
+  - [ ] Card Holder Name
+  - [ ] Address
+  - [ ] City-Town
+  - [ ] State
+  - [ ] ZIP-Postal Code
+  - [ ] Country
+  - [ ] Date of Birth
+  - [ ] Sex
+  - [ ] Height
+  - [ ] Notes
+- [ ] Passport
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Type
+  - [ ] Holders Name
+  - [ ] Country
+  - [ ] Number
+  - [ ] Sex
+  - [ ] Nationality
+  - [ ] Issuing Authority
+  - [ ] Date of Birth
+  - [ ] Issued Date
+  - [ ] Experation Date
+  - [ ] Notes
+- [ ] Social Security
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Card Holders Name
+  - [ ] SSN
+  - [ ] Notes
+- [ ] Insurance
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Company
+  - [ ] Policy Type
+  - [ ] Policy Number
+  - [ ] Experation Date
+  - [ ] Agent Name
+  - [ ] Agent Phone
+  - [ ] URL
+  - [ ] Notes
+- [ ] Memberships
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Organization
+  - [ ] Membership Number
+  - [ ] Member Name
+  - [ ] Start Date
+  - [ ] Experation Date
+  - [ ] Website
+  - [ ] Telephone
+  - [ ] Password
+  - [ ] Notes
+- [ ] Wi-fi passwords
+  - [ ] Name
+  - [ ] Folder
+  - [ ] SSID
+  - [ ] Password
+  - [ ] Connection Type
+  - [ ] Connection Mode
+  - [ ] Authentication
+  - [ ] Encryption
+  - [ ] use 802.1X
+  - [ ] FIPS Mode
+  - [ ] Key Type
+  - [ ] Protected
+  - [ ] Key Index
+  - [ ] Notes
+- [ ] Instant Messager
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Type
+  - [ ] Username
+  - [ ] Password
+  - [ ] Server
+  - [ ] Port
+  - [ ] Notes
+- [ ] Database
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Type
+  - [ ] Hostname
+  - [ ] Port
+  - [ ] Database
+  - [ ] Username
+  - [ ] Password
+  - [ ] SID
+  - [ ] Alias
+  - [ ] Notes 
+- [ ] Server
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Hostname
+  - [ ] Username
+  - [ ] Password
+  - [ ] Notes
+- [ ] SSH Keys
+  - [ ] Name
+  - [ ] Folder
+  - [ ] Bit Strength
+  - [ ] Format
+  - [ ] Passphrase
+  - [ ] Private Key
+  - [ ] Public Key
+  - [ ] Hostname
+  - [ ] Date
+  - [ ] Notes
+
 ## Authentication
 1. Connection with server is established via https and SSL cert.
 2. User enters their username and password on the client side.
