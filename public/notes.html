@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/layout.css">
+  <script src="../assets/js/jquery3.3.1.js"></script>
+  <title>Notes</title>
+</head>
+
+<body onload="pageLoad()">
+  <header>
+    <script src="assets/js/header.js"></script>
+  </header>
+  <h1>Notes</h1>
+  <h2 id="message"></h2>
+  <button>New Note</button>
+  <div id="item-list">
+    <div class="item" id="item1">
+      <p>Name:<input class="name" type="text"><button id="item1-state" onclick="toggleSelction('item1')">Expand</button>
+      </p>
+      <button id="item1-save" class="hide-btn">Save</button>
+      <button id="item1-delete" class="hide-btn">Delete</button>
+      <textarea id="item1-note" class="note" type="text"></textarea><br>
+    </div>
+    <div class="item" id="item2">
+      <p>Name:<input class="name" type="text"><button id="item2-state" onclick="toggleSelction('item2')">Expand</button>
+      </p>
+      <button id="item2-save" class="hide-btn">Save</button id="item2-save">
+      <button id="item2-delete" class="hide-btn">Delete</button>
+      <textarea id="item2-note" class="note" type="text"></textarea id="item1-note"><br>
+    </div class="item">
+    <div class="item" id="item3">
+      <p>Name:<input class="name" type="text"><button id="item3-state" onclick="toggleSelction('item3')">Expand</button>
+      </p>
+      <button id="item3-save" class="hide-btn">Save</button id="item3-save">
+      <button id="item3-delete" class="hide-btn">Delete</button>
+      <textarea id="item3-note" class="note" type="text"></textarea id="item1-note"><br>
+    </div class="item">
+    <div class="item" id="item4">
+      <p>Name:<input class="name" type="text"><button id="item4-state" onclick="toggleSelction('item4')">Expand</button>
+      </p>
+      <button id="item4-save" class="hide-btn">Save</button id="item4-save">
+      <button id="item4-delete" class="hide-btn">Delete</button>
+      <textarea id="item4-note" class="note" type="text"></textarea id="item1-note"><br>
+    </div class="item">
+  </div>
+
+  <footer>
+    <script src="assets/js/footer.js"></script>
+  </footer>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/md5-js.js"></script>
+  <script src="assets/js/md5.js"></script>
+  <script src="assets/js/sh1.js"></script>
+  <script src="assets/js/sha256.js"></script>
+  <script src="assets/js/sha512.js"></script>
+  <script src="assets/js/aes-js.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    const server = window.location.href.replace("?", "").replace("notes.html", "");
+    let listNotes = [];
+
+    function getNotesList() {
+      // event.preventDefault();
+      const URL = server + 'api/users';
+      let localStore = JSON.parse(localStorage.getItem('PWM'))
+      let hashedToken = hex_sha256(localStore.jwt)
+      let keyedToken = generateKey(hashedToken)
+      let decryptedMasterHash = decrypt(keyedToken, localStore.key)
+      let masterHashKey = generateKey(decryptedMasterHash)
+      $.ajax({
+        type: 'POST',
+        url: URL,
+        dataType: 'json',
+        headers: {
+          'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
+        },
+        data: {
+          username: localStore.user,
+          type: "notes",
+        }
+      }).done(function (data) {
+        let encrypted = JSON.parse(data)
+        for (let i = 0; i < encrypted.notes.length; i++) {
+          let fixed = JSON.parse(decrypt(masterHashKey, encrypted.notes[i]))
+          listNotes.push(fixed);
+        }
+      })
+    };
+
+    // Expanding and showing hidden items
+    function expandHidden(id) {
+      document.getElementById(`${id}`).style = "width: 100%; height: 40em;";
+      document.getElementById(`${id}-save`).style = "display: inline-block;"
+      document.getElementById(`${id}-delete`).style = "display: inline-block;"
+      document.getElementById(`${id}-state`).innerHTML = 'Colapse'
+    }
+
+    document.querySelectorAll('.note').forEach(item => { // Detects if user clicks inside of the note field
+      item.addEventListener('click', event => {
+        let id = event.path[0].id.split('-')[0]
+        let state = document.getElementById(`${id}-state`).innerHTML;
+        if (state === 'Expand') {
+          expandHidden(id)
+        }
+      })
+    })
+
+    function toggleSelction(id) { // Togles hidden items
+      let state = document.getElementById(`${id}-state`).innerHTML;
+      if (state === 'Expand') {
+        expandHidden(id)
+      } else {
+        document.getElementById(`${id}`).style = "width: 20em;"
+        document.getElementById(`${id}-save`).style = "display: none;"
+        document.getElementById(`${id}-delete`).style = "display: none;"
+        document.getElementById(`${id}-state`).innerHTML = 'Expand'
+      }
+    }
+
+    function createNote(){
+      
+    }
+
+
+    function pageLoad() {
+      getNotesList()
+      // setTimeout(function () {
+      //   populateList();
+      // }, 3000);
+    }
+  </script>
+</body>
+
+</html>

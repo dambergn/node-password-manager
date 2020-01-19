@@ -53,11 +53,14 @@ This is a self hosted node based password manager with client side AES encryptio
   - [x] Require valid JWT to register new user.
   - [x] Require user to have Administrator rights.
   - [x] Update user info.
-    - [ ] If username is updated, remove old json file and create new one.
+    - [ ] If username is updated, re name old json file.
   - [x] Reset Password.
     - [ ] Custom prompt boxes to hide password input.
   - [x] Delete user.
    - [x] Delete users password file.
+- [ ] User account managment page
+- [ ] Password Difficulty Checker
+- [ ] Bad password checker(checks against list of known used and hacked passwords)
 - [x] Page for manual encryption and decryption
   - [x] Use master password for key generation
   - [x] Require master password verification
@@ -76,8 +79,6 @@ This is a self hosted node based password manager with client side AES encryptio
  - [x] Generate new password for existing entry.
  - [x] Update entry information button.
  - [x] Delete entry information button.
-- [ ] Encrypted notes page
-  -  [ ] Save list of encrypted txt files that can be viewed in browser
 - [ ] Encrypted file storage
   - [ ] File upload method
   - [ ] File download method
@@ -91,32 +92,41 @@ This is a self hosted node based password manager with client side AES encryptio
 
 ### Store types
 - [ ] Folders/Organizational Groups
-- [ ] Passwords
-  - [ ] URL
+- [ ] Encrypted Notes
+  - [ ] New note button
   - [ ] Name
+    - [ ] Unique name, no two notes with same name
+  - [ ] Note
+    - [ ] Expand button to exit or write note
+    - [ ] Save button
+    - [ ] Delete button
+  - [ ] Organization
+- [ ] Passwords
+  - [ ] Name
+  - [ ] Notes
+  - [ ] Organization
+  - [ ] URL
   - [ ] Username
   - [ ] Site Password
-  - [ ] Notes
-  - [ ] Folder
-- [ ] Encrypted Notes
-  - [ ] Name
-  - [ ] Note
-  - [ ] Folder
 - [ ] Address Book
+  - [ ] Name
+  - [ ] Notes
+  - [ ] Organization
   - [ ] Address information (to much to add right now)
 - [ ] Credit/Debeit cards
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Name On Card
   - [ ] Type
   - [ ] Number
   - [ ] Security Code
   - [ ] Issued Date
   - [ ] Experation Date
-  - [ ] Notes
 - [ ] Bank Accounts
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Bank Name
   - [ ] Account Type
   - [ ] Routing Number
@@ -125,10 +135,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] PIN
   - [ ] Branch Address
   - [ ] Branch Phone
-  - [ ] Notes
 - [ ] Crypto Accounts
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Wallet Address
   - [ ] URL for online wallet
   - [ ] Private Key
@@ -137,7 +147,8 @@ This is a self hosted node based password manager with client side AES encryptio
 #### Options
 - [ ] Email Accounts
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Username
   - [ ] Password
   - [ ] Server
@@ -145,10 +156,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Type
   - [ ] SMTP Server
   - [ ] SMTP Port
-  - [ ] Notes
 - [ ] Software Licences
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Licence Key
   - [ ] Licensee
   - [ ] Version
@@ -160,10 +171,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Order Number
   - [ ] Number of Licences
   - [ ] Order Total
-  - [ ] Notes
 - [ ] Drivers Licence
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Number
   - [ ] Experation Date
   - [ ] License Class
@@ -176,10 +187,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Date of Birth
   - [ ] Sex
   - [ ] Height
-  - [ ] Notes
 - [ ] Passport
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Type
   - [ ] Holders Name
   - [ ] Country
@@ -190,16 +201,16 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Date of Birth
   - [ ] Issued Date
   - [ ] Experation Date
-  - [ ] Notes
 - [ ] Social Security
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Card Holders Name
   - [ ] SSN
-  - [ ] Notes
 - [ ] Insurance
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Company
   - [ ] Policy Type
   - [ ] Policy Number
@@ -207,10 +218,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Agent Name
   - [ ] Agent Phone
   - [ ] URL
-  - [ ] Notes
 - [ ] Memberships
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Organization
   - [ ] Membership Number
   - [ ] Member Name
@@ -219,10 +230,10 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Website
   - [ ] Telephone
   - [ ] Password
-  - [ ] Notes
 - [ ] Wi-fi passwords
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] SSID
   - [ ] Password
   - [ ] Connection Type
@@ -234,19 +245,19 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Key Type
   - [ ] Protected
   - [ ] Key Index
-  - [ ] Notes
 - [ ] Instant Messager
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Type
   - [ ] Username
   - [ ] Password
   - [ ] Server
   - [ ] Port
-  - [ ] Notes
 - [ ] Database
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes 
   - [ ] Type
   - [ ] Hostname
   - [ ] Port
@@ -255,17 +266,17 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Password
   - [ ] SID
   - [ ] Alias
-  - [ ] Notes 
 - [ ] Server
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Hostname
   - [ ] Username
   - [ ] Password
-  - [ ] Notes
 - [ ] SSH Keys
   - [ ] Name
-  - [ ] Folder
+  - [ ] Organization
+  - [ ] Notes
   - [ ] Bit Strength
   - [ ] Format
   - [ ] Passphrase
@@ -273,7 +284,6 @@ This is a self hosted node based password manager with client side AES encryptio
   - [ ] Public Key
   - [ ] Hostname
   - [ ] Date
-  - [ ] Notes
 
 ## Authentication
 1. Connection with server is established via https and SSL cert.

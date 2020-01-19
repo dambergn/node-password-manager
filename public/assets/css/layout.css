@@ -1,0 +1,28 @@
+header {
+    border: solid 1px black;
+    height: 2em;
+}
+
+.item{
+    border: solid 1px black;
+    width: 20em;
+    padding: .1em;
+    float: left;
+}
+
+.note{
+    width: 98%;
+    height: 98%;
+}
+
+.hide-btn{
+    display: none;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    border: solid 1px black;
+    height: 2em;
+    width: 100%;
+}
