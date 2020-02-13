@@ -36,9 +36,6 @@ else
   echo "node_modules" >> .gitignore
   echo ".env" >> .gitignore
   echo "ssl" >> .gitignore
-  echo "node_modules" >> .gitignore
-  echo ".env" >> .gitignore
-  echo "ssl" >> .gitignore
 fi
 
 # if [ -f "database/0users.json" ]; then

@@ -147,33 +147,44 @@ app.post('/api/users', verifyToken, (req, res) => {
   res.json(JSON.stringify(usersList));
 })
 
-// Add new username and password entry
-app.post('/api/users/add', verifyToken, (req, res) => {
+// Add new Secure Note
+app.post('/api/users/add/note', verifyToken, (req, res) => {
   console.log("Adding new entry")
   let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
   // console.log("p1:", toUpdate)
-  toUpdate.push(JSON.parse(req.body.entry))
+  toUpdate.notes.push(JSON.parse(req.body.entry))
+  // console.log("p2:", toUpdate)
+  fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
+  res.json({'status' : 'success'})
+})
+
+// Add new username and password entry
+app.post('/api/users/add/password', verifyToken, (req, res) => {
+  console.log("Adding new entry")
+  let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
+  // console.log("p1:", toUpdate)
+  toUpdate.passwords.push(JSON.parse(req.body.entry))
   // console.log("p2:", toUpdate)
   fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
   res.json({'status' : 'success'})
 })
 
 // Remove username and password entry
-app.post('/api/users/remove', verifyToken, (req, res) => {
+app.post('/api/users/remove/password', verifyToken, (req, res) => {
   console.log("Updating entry from:", req.body.username)
   let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
-  console.log("updating entry", toUpdate[req.body.inDex])
-  toUpdate.splice(req.body.inDex, 1)
+  console.log("updating entry", toUpdate.passwords[req.body.inDex])
+  toUpdate.passwords.splice(req.body.inDex, 1)
   fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
   res.json({'status' : 'success'})
 })
 
 // Update username and password entry
-app.post('/api/users/update', verifyToken, (req, res) => {
+app.post('/api/users/update/password', verifyToken, (req, res) => {
   console.log("Updating entry from:", req.body.username)
   let toUpdate = JSON.parse(fs.readFileSync(`database/${req.body.username}.json`))
-  console.log("updating entry", toUpdate[req.body.inDex])
-  toUpdate[req.body.inDex] = req.body.update;
+  console.log("updating entry", toUpdate.passwords[req.body.inDex])
+  toUpdate.passwords[req.body.inDex] = req.body.update;
   fs.writeFileSync(`database/${req.body.username}.json`, JSON.stringify(toUpdate));
   res.json({'status' : 'success'})
 })

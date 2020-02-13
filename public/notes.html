@@ -11,42 +11,21 @@
   <title>Notes</title>
 </head>
 
-<body onload="pageLoad()">
+<body id="body" onload="pageLoad()">
   <header>
     <script src="assets/js/header.js"></script>
   </header>
   <h1>Notes</h1>
   <h2 id="message"></h2>
-  <button>New Note</button>
+  <button onclick="newNote()">New Note</button>
   <div id="item-list">
-    <div class="item" id="item1">
-      <p>Name:<input class="name" type="text"><button id="item1-state" onclick="toggleSelction('item1')">Expand</button>
+    <!-- <div class="item" id="item1">
+      <p id="item1-head">Name:<input class="name" type="text"><button id="item1-state" onclick="toggleSelction('item1')">Expand</button>
       </p>
       <button id="item1-save" class="hide-btn">Save</button>
       <button id="item1-delete" class="hide-btn">Delete</button>
       <textarea id="item1-note" class="note" type="text"></textarea><br>
-    </div>
-    <div class="item" id="item2">
-      <p>Name:<input class="name" type="text"><button id="item2-state" onclick="toggleSelction('item2')">Expand</button>
-      </p>
-      <button id="item2-save" class="hide-btn">Save</button id="item2-save">
-      <button id="item2-delete" class="hide-btn">Delete</button>
-      <textarea id="item2-note" class="note" type="text"></textarea id="item1-note"><br>
-    </div class="item">
-    <div class="item" id="item3">
-      <p>Name:<input class="name" type="text"><button id="item3-state" onclick="toggleSelction('item3')">Expand</button>
-      </p>
-      <button id="item3-save" class="hide-btn">Save</button id="item3-save">
-      <button id="item3-delete" class="hide-btn">Delete</button>
-      <textarea id="item3-note" class="note" type="text"></textarea id="item1-note"><br>
-    </div class="item">
-    <div class="item" id="item4">
-      <p>Name:<input class="name" type="text"><button id="item4-state" onclick="toggleSelction('item4')">Expand</button>
-      </p>
-      <button id="item4-save" class="hide-btn">Save</button id="item4-save">
-      <button id="item4-delete" class="hide-btn">Delete</button>
-      <textarea id="item4-note" class="note" type="text"></textarea id="item1-note"><br>
-    </div class="item">
+    </div> -->
   </div>
 
   <footer>
@@ -122,16 +101,155 @@
       }
     }
 
-    function createNote(){
-      
+    function createNote(name, location) {
+      let noteList = document.getElementById(location);
+      let newNote = document.createElement('div');
+      newNote.className = 'item';
+      newNote.id = name;
+      noteList.appendChild(newNote);
+
+      let newNoteCreated = document.getElementById(name)
+      let newNoteHead = document.createElement('p');
+      newNoteHead.innerHTML = 'Name:';
+      newNoteHead.id = name + '-head';
+      newNoteCreated.appendChild(newNoteHead);
+
+      let noteHead = document.getElementById(name + '-head');
+      let nameInput = document.createElement('input');
+      nameInput.className = 'name';
+      nameInput.id = name + '-name'
+      nameInput.type = 'text';
+      noteHead.appendChild(nameInput);
+
+      let expandBtn = document.createElement('button');
+      expandBtn.id = name + '-state'
+      expandBtn.setAttribute("onclick", "toggleSelction('" + name + "')");
+      expandBtn.innerHTML = 'Expand';
+      noteHead.appendChild(expandBtn);
+
+      let saveBtn = document.createElement('button');
+      saveBtn.id = name + '-save';
+      saveBtn.className = 'hide-btn';
+      saveBtn.innerHTML = 'Save';
+      saveBtn.setAttribute("onclick", "saveNote('" + name + "')");
+      newNoteCreated.appendChild(saveBtn);
+
+      let deleteBtn = document.createElement('button');
+      deleteBtn.id = name + '-delete';
+      deleteBtn.className = 'hide-btn';
+      deleteBtn.innerHTML = 'Delete';
+      deleteBtn.setAttribute("onclick", "deleteNote('" + name + "')");
+      newNoteCreated.appendChild(deleteBtn);
+
+      let noteText = document.createElement('textarea')
+      noteText.id = name + '-note';
+      noteText.className = 'note';
+      noteText.type = 'text';
+      newNoteCreated.appendChild(noteText);
     }
 
+    function populateNoteList() {
+      for (let i = 0; i < listNotes.length; i++) {
+        createNote(listNotes[i].name, 'item-list');
+        let noteName = document.getElementById(listNotes[i].name + '-name');
+        noteName.value = listNotes[i].name;
+        let noteText = document.getElementById(listNotes[i].name + '-note');
+        noteText.value = listNotes[i].note
+      }
+    }
 
     function pageLoad() {
       getNotesList()
-      // setTimeout(function () {
-      //   populateList();
-      // }, 3000);
+      setTimeout(function () {
+        populateNoteList();
+      }, 3000);
+    }
+
+    function saveNote(id) {
+      // console.log("saving note:", id)
+      if (id === 'new') {
+        console.log("Saving new note");
+        // Check to make sure note name does not exist
+
+        // Save new note
+        saveNewNote();
+      } else {
+        console.log('Saving changes to note');
+      }
+    }
+
+    function deleteNote(id) {
+      console.log("deleting note:", id)
+    }
+
+    function newNote() {
+      // event.preventDefault();
+      console.log('Generating new note')
+      // hide all current notes
+      document.getElementById(`item-list`).style = "display: none;"
+
+      // generate new note form
+      let body = document.getElementById('body');
+      let newNoteDiv = document.createElement('div');
+      newNoteDiv.id = 'new-note-div';
+      body.appendChild(newNoteDiv);
+      createNote('new', 'new-note-div');
+      toggleSelction('new')
+    }
+
+    function saveNewNote() {
+      let noteName = document.getElementById('new-name').value;
+      let note = document.getElementById('new-note').value;
+      console.log("NOTE:", note)
+      let newEntry = {
+        name: noteName,
+        note: note
+      }
+      console.log("sending:", newEntry)
+      const URL = server + 'api/users/add/note';
+      let localStore = JSON.parse(localStorage.getItem('PWM'))
+      let hashedToken = hex_sha256(localStore.jwt)
+      let keyedToken = generateKey(hashedToken)
+      let decryptedMasterHash = decrypt(keyedToken, localStore.key)
+      let masterHashKey = generateKey(decryptedMasterHash)
+      // newEntry.note = encrypt(masterHashKey, note)
+      newEncryptedEntry = encrypt(masterHashKey, JSON.stringify(newEntry))
+      $.ajax({
+        type: 'POST',
+        url: URL,
+        dataType: 'json',
+        headers: {
+          'authorization': 'Bearer ' + JSON.stringify(localStore.jwt)
+        },
+        data: {
+          username: localStore.user,
+          entry: JSON.stringify(newEncryptedEntry)
+        }
+      }).done(function (status) {
+        if (status.status === "success") {
+          console.log('add successfull');
+          listNotes.push(newEntry);
+          createNote(newEntry.name, 'item-list')
+          let noteNameText = document.getElementById(listNotes[listNotes.length - 1].name + '-name');
+          noteNameText.value = listNotes[listNotes.length - 1].name;
+          let noteText = document.getElementById(listNotes[listNotes.length - 1].name + '-note');
+          noteText.value = listNotes[listNotes.length - 1].note
+          document.getElementById("message").innerHTML = "New Entry Successfull";
+          document.getElementById("message").style.color = "green";
+          newNoteComplete()
+        } else {
+          document.getElementById("message").innerHTML = "New Entry Failed";
+          document.getElementById("message").style.color = "red";
+        }
+      })
+    }
+
+    function newNoteComplete() {
+      // remove new note form
+      let element = document.getElementById('new-note-div');
+      element.parentNode.removeChild(element);
+      // show hidden list
+      document.getElementById(`item-list`).style = "display: block;"
     }
   </script>
 </body>
