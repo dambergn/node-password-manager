@@ -57,7 +57,14 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
 
+app.post('/api/test', (req, res) => {
+  console.log('test api hit')
+  console.log('REQUEST', req.body)
+  res.send(200)
+});
+
 app.post('/api/login', (req, res) => {
+  console.log('login api hit')
   let loginInfoBase64 = Object.keys(req.body)[0];
   let loginInfoDecoded = Base64.decode(loginInfoBase64);
   let loginInfo = JSON.parse(loginInfoDecoded);
@@ -70,9 +77,8 @@ app.post('/api/login', (req, res) => {
       if (err) {
         console.log("error:", err)
       }
-      res.json({
-        jwToken: token
-      })
+      // console.log('RESPONSE:', res.json({jwToken: token}))
+      res.json({jwToken: token})
     });
   } else {
     console.log("Incorrect username or password");

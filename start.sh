@@ -5,4 +5,4 @@ fuser -k 8080/tcp
 
 sleep 1
 
-nodemon --ignore public/ --ignore database/ index.js
+nodemon --ignore public/ --ignore database/ --ignore CLIent.js index.js
