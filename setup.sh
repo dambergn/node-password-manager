@@ -60,7 +60,7 @@ if ! [ -x "$(command -v node)" ]; then
   sudo apt-get install curl
 
   echo 'Downloading packages'
-  curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 
   echo 'Installing Node and NPM'
   sudo apt-get install -y nodejs
