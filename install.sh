@@ -2,7 +2,9 @@
 # This installs the program as a systemd package
 
 SERVICE_NAME="password-manager"
-PATH=$(pwd)
+CPATH=$(pwd)
+
+rm -rf /etc/systemd/system/$SERVICE_NAME.service
 
 echo "
 [Unit]
@@ -13,7 +15,7 @@ After=network.target
 User=root
 Group=root
 ExecStart=/usr/local/bin/$SERVICE_NAME.sh
-WorkingDirectory=$PATH
+WorkingDirectory=$CPATH
 Restart=on-failure
 
 [Install]
