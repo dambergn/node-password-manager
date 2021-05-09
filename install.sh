@@ -1,6 +1,11 @@
 #!/bin/bash
 # This installs the program as a systemd package
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 SERVICE_NAME="password-manager"
 CPATH=$(pwd)
 
