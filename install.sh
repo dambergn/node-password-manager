@@ -4,9 +4,7 @@
 SERVICE_NAME="password-manager"
 PATH=$(pwd)
 
-sudo -i
-
-echo `
+echo "
 [Unit]
 Description=$SERVICE_NAME
 After=network.target
@@ -21,10 +19,10 @@ Restart=on-failure
 [Install]
 WantedBy=default.target
 
-` >> /etc/systemd/system/$SERVICE_NAME.service
+" >> /etc/systemd/system/$SERVICE_NAME.service
 
 
-mv start.sh /usr/local/bin/$SERVICE_NAME.sh
+cp start.sh /usr/local/bin/$SERVICE_NAME.sh
 chmod 744 /usr/local/bin/$SERVICE_NAME.sh
 chmod 664 /etc/systemd/system/$SERVICE_NAME.service
 systemctl daemon-reload
