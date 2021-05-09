@@ -4,6 +4,8 @@
 SERVICE_NAME="password-manager"
 PATH=$(pwd)
 
+exec sudo -i
+
 echo `
 [Unit]
 Description=$SERVICE_NAME
@@ -22,10 +24,10 @@ WantedBy=default.target
 ` >> /etc/systemd/system/$SERVICE_NAME.service
 
 
-sudo mv start.sh /usr/local/bin/$SERVICE_NAME.sh
-sudo chmod 744 /usr/local/bin/$SERVICE_NAME.sh
-sudo chmod 664 /etc/systemd/system/$SERVICE_NAME.service
-sudo systemctl daemon-reload
-sudo systemctl enable $SERVICE_NAME.service
+mv start.sh /usr/local/bin/$SERVICE_NAME.sh
+chmod 744 /usr/local/bin/$SERVICE_NAME.sh
+chmod 664 /etc/systemd/system/$SERVICE_NAME.service
+systemctl daemon-reload
+systemctl enable $SERVICE_NAME.service
 
-sudo systemctl start $SERVICE_NAME.service
+systemctl start $SERVICE_NAME.service
