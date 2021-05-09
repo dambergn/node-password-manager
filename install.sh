@@ -4,7 +4,7 @@
 SERVICE_NAME="password-manager"
 PATH=$(pwd)
 
-exec sudo -i
+sudo -i
 
 echo `
 [Unit]
