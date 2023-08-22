@@ -94,6 +94,7 @@ app.post('/admin/api/register', verifyTokenAdmin, (req, res) => {
   fs.writeFileSync('database/0users.json', JSON.stringify(users));
   // fs.writeFileSync(`database/${registerInfo.username}.json`), '[]';
   cmd.run(`echo "[]" >> database/${registerInfo.username}.json`)
+  fs.writeFileSync(`database/${registerInfo.username}.json`, JSON.stringify({"notes":[],"passwords":[]}))
   res.sendStatus(200);
 });
 

@@ -1,6 +1,16 @@
 # Node Password Manager
 This is a self hosted node based password manager with client side AES encryption and de-cryption of passwords.
 
+## Setup
+Run setup.sh to install node packages and generate a SSL cert.  
+run install.sh to install as a service.  
+run start.sh to start server.  
+
+on first run default user and pass is  
+User: admin
+Pass: Password!1
+Please go to the admin pannel and change password to use.  
+
 ## installed packages
 - nodemon
 - express
